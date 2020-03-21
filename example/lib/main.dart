@@ -30,6 +30,21 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CleanNepaliCalendar(
+              calendarStyle: CalendarStyle(
+                selectedColor: Colors.deepOrange,
+                dayStyle: TextStyle(fontWeight: FontWeight.bold),
+                todayStyle: TextStyle(
+                  fontSize: 20.0,
+                ),
+                todayColor: Colors.orange.shade400,
+                highlightSelected: true,
+                renderDaysOfWeek: true,
+                highlightToday: true,
+              ),
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: false,
+                titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrange,fontSize: 20.0),
+              ),
               initialDate: NepaliDateTime.now(),
               firstDate: first,
               lastDate: last,

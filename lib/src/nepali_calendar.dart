@@ -96,16 +96,19 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   Widget _buildPicker() {
-    return _MonthView(
-      key: _pickerKey,
-      headerStyle: widget.headerStyle,
-      calendarStyle: widget.calendarStyle,
-      language: widget.language,
-      selectedDate: _selectedDate,
-      onChanged: _handleDayChanged,
-      firstDate: widget.firstDate ?? NepaliDateTime(2000,1),
-      lastDate: widget.lastDate ?? NepaliDateTime(2095,12),
-      selectableDayPredicate: widget.selectableDayPredicate,
+    return Padding(
+      padding: widget.calendarStyle.contentPadding,
+      child: _MonthView(
+        key: _pickerKey,
+        headerStyle: widget.headerStyle,
+        calendarStyle: widget.calendarStyle,
+        language: widget.language,
+        selectedDate: _selectedDate,
+        onChanged: _handleDayChanged,
+        firstDate: widget.firstDate ?? NepaliDateTime(2000,1),
+        lastDate: widget.lastDate ?? NepaliDateTime(2095,12),
+        selectableDayPredicate: widget.selectableDayPredicate,
+      ),
     );
   }
 

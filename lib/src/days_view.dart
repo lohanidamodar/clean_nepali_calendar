@@ -92,6 +92,7 @@ class _DaysView extends StatelessWidget {
     final daysInMonth = displayedMonth.totalDays;
     final firstDayOffset = displayedMonth.weekDay - 1;
     final labels = <Widget>[];
+    if(calendarStyle.renderDaysOfWeek)
     labels.addAll(
       _getDayHeaders(language, themeData.textTheme.caption),
     );
@@ -152,7 +153,7 @@ class _DaysView extends StatelessWidget {
         children: <Widget>[
           Container(
             decoration: headerStyle.decoration,
-            padding: const EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               vertical: 4,
               horizontal: 40,
             ),
