@@ -22,7 +22,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.selectableDayPredicate,
-    this.language,
+    this.language = Language.nepali,
     this.onDaySelected,
     this.headerStyle = const HeaderStyle(),
     this.calendarStyle = const CalendarStyle(),
@@ -45,7 +45,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.initialDate;
+    _selectedDate = widget.initialDate ?? NepaliDateTime.now();
   }
 
   bool _announcedInitialDate = false;
@@ -70,7 +70,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   @override
   void didUpdateWidget(CleanNepaliCalendar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _selectedDate = widget.initialDate;
+    _selectedDate = widget.initialDate ?? NepaliDateTime.now();
   }
 
   NepaliDateTime _selectedDate;
@@ -103,8 +103,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       language: widget.language,
       selectedDate: _selectedDate,
       onChanged: _handleDayChanged,
-      firstDate: widget.firstDate,
-      lastDate: widget.lastDate,
+      firstDate: widget.firstDate ?? NepaliDateTime(2000,1),
+      lastDate: widget.lastDate ?? NepaliDateTime(2095,12),
       selectableDayPredicate: widget.selectableDayPredicate,
     );
   }
