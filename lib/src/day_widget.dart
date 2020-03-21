@@ -1,7 +1,7 @@
 part of clean_nepali_calendar;
 
-class DayWidget extends StatelessWidget {
-  const DayWidget({
+class _DayWidget extends StatelessWidget {
+  const _DayWidget({
     Key key,
     this.isSelectedDay,
     this.disabled,
@@ -9,7 +9,6 @@ class DayWidget extends StatelessWidget {
     this.label,
     this.text,
     this.onTap,
-    this.dragStartBehavior,
   }) : super(key: key);
 
   final bool isSelectedDay;
@@ -18,21 +17,15 @@ class DayWidget extends StatelessWidget {
   final String label;
   final String text;
   final Function() onTap;
-  final DragStartBehavior dragStartBehavior;
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    BoxDecoration decoration;
     var itemStyle = themeData.textTheme.body1;
 
     if (isSelectedDay) {
       // The selected day gets a circle background highlight, and a contrasting text color.
       itemStyle = themeData.accentTextTheme.body2;
-      decoration = BoxDecoration(
-        color: themeData.accentColor,
-        shape: BoxShape.circle,
-      );
     } else if (disabled) {
       itemStyle =
           themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
@@ -41,9 +34,30 @@ class DayWidget extends StatelessWidget {
       itemStyle =
           themeData.textTheme.body2.copyWith(color: themeData.accentColor);
     }
+    Decoration _buildCellDecoration() {
+      if (isSelectedDay) {
+        return BoxDecoration(
+          color: themeData.accentColor,
+          shape: BoxShape.circle,
+        );
+      } else if (disabled) {
+        return BoxDecoration(
+          shape: BoxShape.circle,
+        );
+      } else if (isCurrentDay) {
+        return BoxDecoration(
+          shape: BoxShape.circle,
+        );
+      }else{
+        return BoxDecoration(
+          shape: BoxShape.circle,
+        );
+      }
+    }
 
-    Widget dayWidget = Container(
-      decoration: decoration,
+   return AnimatedContainer(
+      duration: Duration(milliseconds: 2000),
+      decoration: _buildCellDecoration(),
       child: Center(
         child: Semantics(
           label: label,
@@ -54,15 +68,5 @@ class DayWidget extends StatelessWidget {
         ),
       ),
     );
-
-    if (!disabled) {
-      dayWidget = GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: dayWidget,
-        dragStartBehavior: dragStartBehavior,
-      );
-    }
-    return dayWidget;
   }
 }

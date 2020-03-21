@@ -90,7 +90,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   Widget _buildPicker() {
-    return MonthView(
+    return _MonthView(
       key: _pickerKey,
       language: widget.language,
       selectedDate: _selectedDate,

@@ -2,8 +2,8 @@ part of clean_nepali_calendar;
 
 const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
 
-class MonthView extends StatefulWidget {
-  MonthView({
+class _MonthView extends StatefulWidget {
+  _MonthView({
     Key key,
     @required this.selectedDate,
     @required this.onChanged,
@@ -36,7 +36,7 @@ class MonthView extends StatefulWidget {
   _MonthViewState createState() => _MonthViewState();
 }
 
-class _MonthViewState extends State<MonthView>
+class _MonthViewState extends State<_MonthView>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _chevronOpacityTween =
       Tween<double>(begin: 1.0, end: 0.0)
@@ -61,7 +61,7 @@ class _MonthViewState extends State<MonthView>
   }
 
   @override
-  void didUpdateWidget(MonthView oldWidget) {
+  void didUpdateWidget(_MonthView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedDate != oldWidget.selectedDate) {
       final monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
@@ -125,7 +125,7 @@ class _MonthViewState extends State<MonthView>
 
   Widget _buildItems(BuildContext context, int index) {
     final month = _addMonthsToMonthDate(widget.firstDate, index);
-    return DaysView(
+    return _DaysView(
       key: ValueKey<NepaliDateTime>(month),
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,

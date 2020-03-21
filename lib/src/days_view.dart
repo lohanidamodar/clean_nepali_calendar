@@ -27,8 +27,8 @@ class _DayPickerGridDelegate extends SliverGridDelegate {
 
 const _DayPickerGridDelegate _kDayPickerGridDelegate = _DayPickerGridDelegate();
 
-class DaysView extends StatelessWidget {
-  DaysView({
+class _DaysView extends StatelessWidget {
+  _DaysView({
     Key key,
     @required this.selectedDate,
     @required this.currentDate,
@@ -115,19 +115,29 @@ class DaysView extends StatelessWidget {
             '${formattedMonth(month, Language.english)} $day, $year';
         final text =
             '${language == Language.english ? day : NepaliUnicode.convert('$day')}';
-        labels.add(
-          DayWidget(
-            disabled: disabled,
-            text: text,
-            label: semanticLabel,
-            isCurrentDay: isCurrentDay,
-            dragStartBehavior: dragStartBehavior,
-            isSelectedDay: isSelectedDay,
-            onTap: () {
+
+        Widget dayWidget = _DayWidget(
+          disabled: disabled,
+          text: text,
+          label: semanticLabel,
+          isCurrentDay: isCurrentDay,
+          isSelectedDay: isSelectedDay,
+          onTap: () {
+            onChanged(dayToBuild);
+          },
+        );
+
+        if (!disabled) {
+          dayWidget = GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: (){
               onChanged(dayToBuild);
             },
-          ),
-        );
+            child: dayWidget,
+            dragStartBehavior: dragStartBehavior,
+          );
+        }
+        labels.add(dayWidget);
       }
     }
 
