@@ -22,6 +22,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.selectableDayPredicate,
     this.language,
     this.onDaySelected,
+    this.calendarStyle = const CalendarStyle(),
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -30,6 +31,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final Function(NepaliDateTime) onDaySelected;
   final SelectableDayPredicate selectableDayPredicate;
   final Language language;
+  final CalendarStyle calendarStyle;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -92,6 +94,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   Widget _buildPicker() {
     return _MonthView(
       key: _pickerKey,
+      calendarStyle: widget.calendarStyle,
       language: widget.language,
       selectedDate: _selectedDate,
       onChanged: _handleDayChanged,

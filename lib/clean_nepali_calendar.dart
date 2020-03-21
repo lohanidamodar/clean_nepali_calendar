@@ -15,3 +15,4 @@ part './src/nepali_calendar.dart';
 part './src/month_view.dart';
 part './src/days_view.dart';
 part './src/day_widget.dart';
+part './src/customization/calendar_style.dart';

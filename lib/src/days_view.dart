@@ -37,6 +37,7 @@ class _DaysView extends StatelessWidget {
     @required this.lastDate,
     @required this.displayedMonth,
     @required this.language,
+    @required this.calendarStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -65,6 +66,7 @@ class _DaysView extends StatelessWidget {
   final DragStartBehavior dragStartBehavior;
 
   final Language language;
+  final CalendarStyle calendarStyle;
 
   List<Widget> _getDayHeaders(Language language, TextStyle headerStyle) {
     return (language == Language.english
@@ -117,11 +119,12 @@ class _DaysView extends StatelessWidget {
             '${language == Language.english ? day : NepaliUnicode.convert('$day')}';
 
         Widget dayWidget = _DayWidget(
-          disabled: disabled,
+          isDisabled: disabled,
           text: text,
           label: semanticLabel,
-          isCurrentDay: isCurrentDay,
-          isSelectedDay: isSelectedDay,
+          isToday: isCurrentDay,
+          isSelected: isSelectedDay,
+          calendarStyle: calendarStyle,
           onTap: () {
             onChanged(dayToBuild);
           },

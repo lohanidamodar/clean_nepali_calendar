@@ -3,67 +3,64 @@ part of clean_nepali_calendar;
 class _DayWidget extends StatelessWidget {
   const _DayWidget({
     Key key,
-    this.isSelectedDay,
-    this.disabled,
-    this.isCurrentDay,
-    this.label,
-    this.text,
-    this.onTap,
+    @required this.isSelected,
+    @required this.isDisabled,
+    @required this.isToday,
+    @required this.label,
+    @required this.text,
+    @required this.onTap,
+    @required this.calendarStyle,
   }) : super(key: key);
 
-  final bool isSelectedDay;
-  final bool disabled;
-  final bool isCurrentDay;
+  final bool isSelected;
+  final bool isDisabled;
+  final bool isToday;
   final String label;
   final String text;
   final Function() onTap;
+  final CalendarStyle calendarStyle;
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    var itemStyle = themeData.textTheme.body1;
-
-    if (isSelectedDay) {
-      // The selected day gets a circle background highlight, and a contrasting text color.
-      itemStyle = themeData.accentTextTheme.body2;
-    } else if (disabled) {
-      itemStyle =
-          themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
-    } else if (isCurrentDay) {
-      // The current day gets a different text color.
-      itemStyle =
-          themeData.textTheme.body2.copyWith(color: themeData.accentColor);
-    }
     Decoration _buildCellDecoration() {
-      if (isSelectedDay) {
+      if (isSelected && calendarStyle.highlightSelected) {
         return BoxDecoration(
-          color: themeData.accentColor,
+          color: calendarStyle.selectedColor,
           shape: BoxShape.circle,
         );
-      } else if (disabled) {
+      } else if (isToday && calendarStyle.highlightToday) {
         return BoxDecoration(
           shape: BoxShape.circle,
+          color: calendarStyle.todayColor,
         );
-      } else if (isCurrentDay) {
-        return BoxDecoration(
-          shape: BoxShape.circle,
-        );
-      }else{
+      } else {
         return BoxDecoration(
           shape: BoxShape.circle,
         );
       }
     }
 
-   return AnimatedContainer(
+    TextStyle _buildCellTextStyle() {
+      if (isDisabled) {
+        return calendarStyle.unavailableStyle;
+      } else if (isSelected && calendarStyle.highlightSelected) {
+        return calendarStyle.selectedStyle;
+      } else if (isToday && calendarStyle.highlightToday) {
+        return calendarStyle.todayStyle;
+      } else {
+        return calendarStyle.dayStyle;
+      }
+    }
+
+    return AnimatedContainer(
       duration: Duration(milliseconds: 2000),
       decoration: _buildCellDecoration(),
       child: Center(
         child: Semantics(
           label: label,
-          selected: isSelectedDay,
+          selected: isSelected,
           child: ExcludeSemantics(
-            child: Text(text, style: itemStyle),
+            child: Text(text, style: _buildCellTextStyle()),
           ),
         ),
       ),

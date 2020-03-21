@@ -10,6 +10,7 @@ class _MonthView extends StatefulWidget {
     @required this.firstDate,
     @required this.lastDate,
     @required this.language,
+    @required this.calendarStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -31,6 +32,8 @@ class _MonthView extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   final Language language;
+  
+  final CalendarStyle calendarStyle;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -127,6 +130,7 @@ class _MonthViewState extends State<_MonthView>
     final month = _addMonthsToMonthDate(widget.firstDate, index);
     return _DaysView(
       key: ValueKey<NepaliDateTime>(month),
+      calendarStyle: widget.calendarStyle,
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,
       onChanged: widget.onChanged,
