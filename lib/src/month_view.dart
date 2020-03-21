@@ -11,6 +11,7 @@ class _MonthView extends StatefulWidget {
     @required this.lastDate,
     @required this.language,
     @required this.calendarStyle,
+    @required this.headerStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -32,8 +33,10 @@ class _MonthView extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   final Language language;
-  
+
   final CalendarStyle calendarStyle;
+
+  final HeaderStyle headerStyle;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -130,6 +133,7 @@ class _MonthViewState extends State<_MonthView>
     final month = _addMonthsToMonthDate(widget.firstDate, index);
     return _DaysView(
       key: ValueKey<NepaliDateTime>(month),
+      headerStyle: widget.headerStyle,
       calendarStyle: widget.calendarStyle,
       selectedDate: widget.selectedDate,
       currentDate: _todayDate,
@@ -224,7 +228,8 @@ class _MonthViewState extends State<_MonthView>
               child: FadeTransition(
                 opacity: _chevronOpacityAnimation,
                 child: IconButton(
-                  icon: const Icon(Icons.chevron_left),
+                  padding: widget.headerStyle.leftChevronPadding,
+                  icon: widget.headerStyle.leftChevronIcon,
                   tooltip: _isDisplayingFirstMonth
                       ? null
                       : 'Previous month ${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}',
@@ -242,7 +247,8 @@ class _MonthViewState extends State<_MonthView>
               child: FadeTransition(
                 opacity: _chevronOpacityAnimation,
                 child: IconButton(
-                  icon: const Icon(Icons.chevron_right),
+                  padding: widget.headerStyle.rightChevronPadding,
+                  icon: widget.headerStyle.rightChevronIcon,
                   tooltip: _isDisplayingLastMonth
                       ? null
                       : 'Next month ${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}',

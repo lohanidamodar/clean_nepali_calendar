@@ -38,6 +38,7 @@ class _DaysView extends StatelessWidget {
     @required this.displayedMonth,
     @required this.language,
     @required this.calendarStyle,
+    @required this.headerStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
@@ -67,6 +68,7 @@ class _DaysView extends StatelessWidget {
 
   final Language language;
   final CalendarStyle calendarStyle;
+  final HeaderStyle headerStyle;
 
   List<Widget> _getDayHeaders(Language language, TextStyle headerStyle) {
     return (language == Language.english
@@ -133,7 +135,7 @@ class _DaysView extends StatelessWidget {
         if (!disabled) {
           dayWidget = GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: (){
+            onTap: () {
               onChanged(dayToBuild);
             },
             child: dayWidget,
@@ -149,13 +151,21 @@ class _DaysView extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
+            decoration: headerStyle.decoration,
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 40,
+            ),
             height: _kDayPickerRowHeight,
-            child: Center(
-              child: ExcludeSemantics(
-                child: Text(
-                  '${formattedMonth(month, language)} ${language == Language.english ? year : NepaliUnicode.convert('$year')}',
-                  style: themeData.textTheme.subhead,
-                ),
+            alignment: headerStyle.centerHeaderTitle
+                ? Alignment.center
+                : Alignment.centerLeft,
+            child: ExcludeSemantics(
+              child: Text(
+                headerStyle.titleTextBuilder != null
+                    ? headerStyle.titleTextBuilder(displayedMonth, language)
+                    : '${formattedMonth(month, language)} ${language == Language.english ? year : NepaliUnicode.convert('$year')}',
+                style: headerStyle.titleTextStyle,
               ),
             ),
           ),

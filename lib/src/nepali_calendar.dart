@@ -1,5 +1,7 @@
 part of clean_nepali_calendar;
 
+typedef String TextBuilder(NepaliDateTime date, Language language);
+
 String formattedMonth(
   int month, [
   Language language,
@@ -22,6 +24,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.selectableDayPredicate,
     this.language,
     this.onDaySelected,
+    this.headerStyle = const HeaderStyle(),
     this.calendarStyle = const CalendarStyle(),
   }) : super(key: key);
 
@@ -32,6 +35,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final SelectableDayPredicate selectableDayPredicate;
   final Language language;
   final CalendarStyle calendarStyle;
+  final HeaderStyle headerStyle;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -94,6 +98,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   Widget _buildPicker() {
     return _MonthView(
       key: _pickerKey,
+      headerStyle: widget.headerStyle,
       calendarStyle: widget.calendarStyle,
       language: widget.language,
       selectedDate: _selectedDate,
