@@ -105,57 +105,29 @@ class DaysView extends StatelessWidget {
             (selectableDayPredicate != null &&
                 !selectableDayPredicate(dayToBuild));
 
-        BoxDecoration decoration;
-        var itemStyle = themeData.textTheme.body1;
-
         final isSelectedDay = selectedDate.year == year &&
             selectedDate.month == month &&
             selectedDate.day == day;
-        if (isSelectedDay) {
-          // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.body2;
-          decoration = BoxDecoration(
-            color: themeData.accentColor,
-            shape: BoxShape.circle,
-          );
-        } else if (disabled) {
-          itemStyle = themeData.textTheme.body1
-              .copyWith(color: themeData.disabledColor);
-        } else if (currentDate.year == year &&
+        final bool isCurrentDay = currentDate.year == year &&
             currentDate.month == month &&
-            currentDate.day == day) {
-          // The current day gets a different text color.
-          itemStyle =
-              themeData.textTheme.body2.copyWith(color: themeData.accentColor);
-        }
-
-        Widget dayWidget = Container(
-          decoration: decoration,
-          child: Center(
-            child: Semantics(
-              label: '${formattedMonth(month, Language.english)} $day, $year',
-              selected: isSelectedDay,
-              child: ExcludeSemantics(
-                child: Text(
-                    '${language == Language.english ? day : NepaliUnicode.convert('$day')}',
-                    style: itemStyle),
-              ),
-            ),
-          ),
-        );
-
-        if (!disabled) {
-          dayWidget = GestureDetector(
-            behavior: HitTestBehavior.opaque,
+            currentDate.day == day;
+        final semanticLabel =
+            '${formattedMonth(month, Language.english)} $day, $year';
+        final text =
+            '${language == Language.english ? day : NepaliUnicode.convert('$day')}';
+        labels.add(
+          DayWidget(
+            disabled: disabled,
+            text: text,
+            label: semanticLabel,
+            isCurrentDay: isCurrentDay,
+            dragStartBehavior: dragStartBehavior,
+            isSelectedDay: isSelectedDay,
             onTap: () {
               onChanged(dayToBuild);
             },
-            child: dayWidget,
-            dragStartBehavior: dragStartBehavior,
-          );
-        }
-
-        labels.add(dayWidget);
+          ),
+        );
       }
     }
 

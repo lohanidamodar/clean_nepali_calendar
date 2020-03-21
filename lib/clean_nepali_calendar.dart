@@ -14,3 +14,4 @@ export 'package:nepali_utils/nepali_utils.dart';
 part './src/nepali_calendar.dart';
 part './src/month_view.dart';
 part './src/days_view.dart';
+part './src/day_widget.dart';
