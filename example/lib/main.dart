@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
-    final NepaliDateTime first =NepaliDateTime(2070,1);
-    final NepaliDateTime last = NepaliDateTime(2080,12);
+    final NepaliDateTime first =NepaliDateTime(2075,5);
+    final NepaliDateTime last = NepaliDateTime(2077,3);
     return Scaffold(
       appBar: AppBar(
         title: Text('Clean Nepali Calendar'),

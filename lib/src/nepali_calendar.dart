@@ -317,9 +317,15 @@ class _MonthViewState extends State<MonthView>
     NepaliDateTime monthDate,
     int monthsToAdd,
   ) {
+    int year = monthsToAdd ~/ 12;
+    int months = monthDate.month + monthsToAdd % 12;
+    if(months > 12) {
+      year += months ~/ 12;
+      months = months % 12;
+    }
     return NepaliDateTime(
-      monthDate.year + monthsToAdd ~/ 12,
-      monthDate.month + monthsToAdd % 12,
+      monthDate.year + year,
+      months,
     );
   }
 
