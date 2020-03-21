@@ -92,10 +92,10 @@ class _DaysView extends StatelessWidget {
     final daysInMonth = displayedMonth.totalDays;
     final firstDayOffset = displayedMonth.weekDay - 1;
     final labels = <Widget>[];
-    if(calendarStyle.renderDaysOfWeek)
-    labels.addAll(
-      _getDayHeaders(language, themeData.textTheme.caption),
-    );
+    if (calendarStyle.renderDaysOfWeek)
+      labels.addAll(
+        _getDayHeaders(language, themeData.textTheme.caption),
+      );
     for (var i = 0; true; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.

@@ -105,8 +105,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
         language: widget.language,
         selectedDate: _selectedDate,
         onChanged: _handleDayChanged,
-        firstDate: widget.firstDate ?? NepaliDateTime(2000,1),
-        lastDate: widget.lastDate ?? NepaliDateTime(2095,12),
+        firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
+        lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
         selectableDayPredicate: widget.selectableDayPredicate,
       ),
     );
