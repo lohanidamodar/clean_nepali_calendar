@@ -19,9 +19,8 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
-    final one = DateTime(DateTime.now().year-5);
-    final NepaliDateTime first =NepaliDateTime(2070,1,7);
-    final NepaliDateTime last = NepaliDateTime(2080);
+    final NepaliDateTime first =NepaliDateTime(2070,1);
+    final NepaliDateTime last = NepaliDateTime(2080,12);
     return Scaffold(
       appBar: AppBar(
         title: Text('Clean Nepali Calendar'),
@@ -31,10 +30,13 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CleanNepaliCalendar(
-              initialDate: DateTime.now().toNepaliDateTime(),
+              initialDate: NepaliDateTime.now(),
               firstDate: first,
               lastDate: last,
-              language: Language.english,
+              language: Language.nepali,
+              onDaySelected: (day){
+                print(day.toString());
+              },
               
             ),
           ],

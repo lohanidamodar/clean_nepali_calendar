@@ -1,7 +1,3 @@
-// Copyright 2019 Sarbagya Dhaubanjar. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -12,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
-/// Formats month to literal form
 String formattedMonth(
   int month, [
   Language language,
@@ -27,8 +22,6 @@ const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 const double _kMaxDayPickerHeight =
     _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
-
-const double _kMonthPickerPortraitWidth = 330.0;
 
 class _DayPickerGridDelegate extends SliverGridDelegate {
   const _DayPickerGridDelegate();
@@ -55,24 +48,7 @@ class _DayPickerGridDelegate extends SliverGridDelegate {
 
 const _DayPickerGridDelegate _kDayPickerGridDelegate = _DayPickerGridDelegate();
 
-/// Displays the days of a given month and allows choosing a day.
-///
-/// The days are arranged in a rectangular grid with one column for each day of
-/// the week.
-///
-/// The day picker widget is rarely used directly. Instead, consider using
-/// [showDatePicker], which creates a date picker dialog.
-///
-/// See also:
-///
-///  * [showDatePicker], which shows a dialog that contains a material design
-///    date picker.
-///  * [showTimePicker], which shows a dialog that contains a material design
-///    time picker.
 class DayPicker extends StatelessWidget {
-  /// Creates a day picker.
-  ///
-  /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
   DayPicker({
     Key key,
     @required this.selectedDate,
@@ -93,48 +69,22 @@ class DayPicker extends StatelessWidget {
         assert(selectedDate.isAfter(firstDate)),
         super(key: key);
 
-  /// The currently selected date.
-  ///
-  /// This date is highlighted in the picker.
   final NepaliDateTime selectedDate;
 
-  /// The current date at the time the picker is displayed.
   final NepaliDateTime currentDate;
 
-  /// Called when the user picks a day.
   final ValueChanged<NepaliDateTime> onChanged;
 
-  /// The earliest date the user is permitted to pick.
   final NepaliDateTime firstDate;
 
-  /// The latest date the user is permitted to pick.
   final NepaliDateTime lastDate;
 
-  /// The month whose days are displayed by this picker.
   final NepaliDateTime displayedMonth;
 
-  /// Optional user supplied predicate function to customize selectable days.
   final SelectableDayPredicate selectableDayPredicate;
 
-  /// Determines the way that drag start behavior is handled.
-  ///
-  /// If set to [DragStartBehavior.start], the drag gesture used to scroll a
-  /// date picker wheel will begin upon the detection of a drag gesture. If set
-  /// to [DragStartBehavior.down] it will begin when a down event is first
-  /// detected.
-  ///
-  /// In general, setting this to [DragStartBehavior.start] will make drag
-  /// animation smoother and setting it to [DragStartBehavior.down] will make
-  /// drag behavior feel slightly more reactive.
-  ///
-  /// By default, the drag start behavior is [DragStartBehavior.start].
-  ///
-  /// See also:
-  ///
-  ///  * [DragGestureRecognizer.dragStartBehavior], which gives an example for the different behaviors.
   final DragStartBehavior dragStartBehavior;
 
-  /// Defines language to be used.
   final Language language;
 
   List<Widget> _getDayHeaders(Language language, TextStyle headerStyle) {
@@ -258,26 +208,8 @@ class DayPicker extends StatelessWidget {
   }
 }
 
-/// A scrollable list of months to allow picking a month.
-///
-/// Shows the days of each month in a rectangular grid with one column for each
-/// day of the week.
-///
-/// The month picker widget is rarely used directly. Instead, consider using
-/// [showDatePicker], which creates a date picker dialog.
-///
-/// See also:
-///
-///  * [showDatePicker], which shows a dialog that contains a material design
-///    date picker.
-///  * [showTimePicker], which shows a dialog that contains a material design
-///    time picker.
-class MonthPicker extends StatefulWidget {
-  /// Creates a month picker.
-  ///
-  /// Rarely used directly. Instead, typically used as part of the dialog shown
-  /// by [showDatePicker].
-  MonthPicker({
+class MonthView extends StatefulWidget {
+  MonthView({
     Key key,
     @required this.selectedDate,
     @required this.onChanged,
@@ -292,34 +224,25 @@ class MonthPicker extends StatefulWidget {
         assert(selectedDate.isAfter(firstDate)),
         super(key: key);
 
-  /// The currently selected date.
-  ///
-  /// This date is highlighted in the picker.
   final NepaliDateTime selectedDate;
 
-  /// Called when the user picks a month.
   final ValueChanged<NepaliDateTime> onChanged;
 
-  /// The earliest date the user is permitted to pick.
   final NepaliDateTime firstDate;
 
-  /// The latest date the user is permitted to pick.
   final NepaliDateTime lastDate;
 
-  /// Optional user supplied predicate function to customize selectable days.
   final SelectableDayPredicate selectableDayPredicate;
 
-  /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
 
-  /// Specifies langauge to be used in date picker interface.
   final Language language;
 
   @override
-  _MonthPickerState createState() => _MonthPickerState();
+  _MonthViewState createState() => _MonthViewState();
 }
 
-class _MonthPickerState extends State<MonthPicker>
+class _MonthViewState extends State<MonthView>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _chevronOpacityTween =
       Tween<double>(begin: 1.0, end: 0.0)
@@ -344,7 +267,7 @@ class _MonthPickerState extends State<MonthPicker>
   }
 
   @override
-  void didUpdateWidget(MonthPicker oldWidget) {
+  void didUpdateWidget(MonthView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedDate != oldWidget.selectedDate) {
       final monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
@@ -390,7 +313,6 @@ class _MonthPickerState extends State<MonthPicker>
         startDate.month;
   }
 
-  /// Add months to a month truncated date.
   NepaliDateTime _addMonthsToMonthDate(
     NepaliDateTime monthDate,
     int monthsToAdd,
@@ -437,13 +359,11 @@ class _MonthPickerState extends State<MonthPicker>
     }
   }
 
-  /// True if the earliest allowable month is displayed.
   bool get _isDisplayingFirstMonth {
     return !_currentDisplayedMonthDate
         .isAfter(NepaliDateTime(widget.firstDate.year, widget.firstDate.month));
   }
 
-  /// True if the latest allowable month is displayed.
   bool get _isDisplayingLastMonth {
     return !_currentDisplayedMonthDate
         .isBefore(NepaliDateTime(widget.lastDate.year, widget.lastDate.month));
@@ -465,7 +385,6 @@ class _MonthPickerState extends State<MonthPicker>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // width: _kMonthPickerPortraitWidth,
       height: _kMaxDayPickerHeight,
       child: Stack(
         children: <Widget>[
@@ -559,11 +478,13 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.lastDate,
     this.selectableDayPredicate,
     this.language,
+    this.onDaySelected,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
   final NepaliDateTime firstDate;
   final NepaliDateTime lastDate;
+  final Function(NepaliDateTime) onDaySelected;
   final SelectableDayPredicate selectableDayPredicate;
   final Language language;
 
@@ -597,6 +518,12 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
     }
   }
 
+  @override
+  void didUpdateWidget(CleanNepaliCalendar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _selectedDate = widget.initialDate;
+  }
+
   NepaliDateTime _selectedDate;
   final GlobalKey _pickerKey = GlobalKey();
 
@@ -616,10 +543,11 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
     setState(() {
       _selectedDate = value;
     });
+    if (widget.onDaySelected != null) widget.onDaySelected(value);
   }
 
   Widget _buildPicker() {
-    return MonthPicker(
+    return MonthView(
       key: _pickerKey,
       language: widget.language,
       selectedDate: _selectedDate,
@@ -632,41 +560,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final Widget picker = Flexible(
-      child: SizedBox(
-        height: _kMaxDayPickerHeight,
-        child: _buildPicker(),
-      ),
-    );
-    final dialog = SizedBox(
-      // width: _kMonthPickerPortraitWidth,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            color: theme.dialogBackgroundColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[picker],
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return Theme(
-      data: theme.copyWith(
-        dialogBackgroundColor: Colors.transparent,
-      ),
-      child: dialog,
-    );
+    return _buildPicker();
   }
 }
 
-/// Signature for predicating dates for enabled date selections.
-///
-/// See [showDatePicker].
 typedef SelectableDayPredicate = bool Function(NepaliDateTime day);
