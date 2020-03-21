@@ -2,9 +2,7 @@
 
 Flutter package to display Nepali Calendar. Inspired greatly from [nepali_date_picker](https://pub.dev/packages/nepali_date_picker) and [table_calendar](https://pub.dev/packages/table_calendar).
 
-# Clean Nepali Calendar
-
-[![Pub Package](https://img.shields.io/pub/v/clean_nepali_calendar.svg?style=flat-square)](https://pub.dartlang.org/packages/clean_nepali_calendar)
+[![Pub Package](https://img.shields.io/pub/v/clean_nepali_calendar.svg?style=flat-square)](https://pub.dev/packages/clean_nepali_calendar)
 
 
 Highly customizable, feature-packed Flutter Nepali Calendar package.
