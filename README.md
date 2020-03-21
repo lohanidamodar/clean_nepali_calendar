@@ -53,3 +53,5 @@ Widget build(BuildContext context) {
   );
 }
 ```
+
+Checkout the [Example project](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) for complete customization options
