@@ -49,12 +49,6 @@ void initState() {
 }
 
 @override
-void dispose() {
-  _calendarController.dispose();
-  super.dispose();
-}
-
-@override
 Widget build(BuildContext context) {
   return CleanNepaliCalendar(
     controller: _calendarController,
