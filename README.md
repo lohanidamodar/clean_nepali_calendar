@@ -39,12 +39,25 @@ Then import it to your project:
 import 'package:clean_nepali_calendar/clean_nepali_calendar.dart';
 ```
 
-Then you can directly instantiate the `CleanNepaliCalendar` widget. works out of box;
+Then create and use the `NepaliCalendarController` and instantiate the `CleanNepaliCalendar` widget. works out of box;
 
 ```dart
 @override
+void initState() {
+  super.initState();
+  _calendarController = NepaliCalendarController();
+}
+
+@override
+void dispose() {
+  _calendarController.dispose();
+  super.dispose();
+}
+
+@override
 Widget build(BuildContext context) {
   return CleanNepaliCalendar(
+    controller: _calendarController,
     onDaySelected: (day){
         print(day.toString());
     },
@@ -52,4 +65,4 @@ Widget build(BuildContext context) {
 }
 ```
 
-Checkout the [Example project](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) for complete customization options
+Chec kout [example project](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) more detailed information.
