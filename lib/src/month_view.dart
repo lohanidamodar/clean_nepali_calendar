@@ -13,6 +13,8 @@ class _MonthView extends StatefulWidget {
     @required this.calendarStyle,
     @required this.headerStyle,
     this.selectableDayPredicate,
+    this.onHeaderLongPressed,
+    this.onHeaderTapped,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
@@ -37,6 +39,8 @@ class _MonthView extends StatefulWidget {
   final CalendarStyle calendarStyle;
 
   final HeaderStyle headerStyle;
+  final HeaderGestureCallback onHeaderTapped;
+  final HeaderGestureCallback onHeaderLongPressed;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -197,6 +201,8 @@ class _MonthViewState extends State<_MonthView>
       child: Column(
         children: <Widget>[
           _CalendarHeader(
+            onHeaderLongPressed: widget.onHeaderLongPressed,
+            onHeaderTapped: widget.onHeaderTapped,
             language: widget.language,
             handleNextMonth: _handleNextMonth,
             handlePreviousMonth: _handlePreviousMonth,

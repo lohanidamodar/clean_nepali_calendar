@@ -13,6 +13,8 @@ class _CalendarHeader extends StatelessWidget {
     @required HeaderStyle headerStyle,
     @required Function() handleNextMonth,
     @required Function() handlePreviousMonth,
+    @required this.onHeaderTapped,
+    @required this.onHeaderLongPressed,
   })  : _chevronOpacityAnimation = chevronOpacityAnimation,
         _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
@@ -35,6 +37,20 @@ class _CalendarHeader extends StatelessWidget {
   final Function() _handleNextMonth;
   final Function() _handlePreviousMonth;
   final Language _language;
+  final HeaderGestureCallback onHeaderTapped;
+  final HeaderGestureCallback onHeaderLongPressed;
+
+  _onHeaderTapped() {
+    if (onHeaderTapped != null) {
+      onHeaderTapped(date);
+    }
+  }
+
+  _onHeaderLongPressed() {
+    if (onHeaderLongPressed != null) {
+      onHeaderLongPressed(date);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +75,15 @@ class _CalendarHeader extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _headerStyle.centerHeaderTitle
-                ? Center(
-                    child: _buildTitle(),
-                  )
-                : _buildTitle(),
+            child: GestureDetector(
+              onTap: _onHeaderTapped,
+              onLongPress: _onHeaderLongPressed,
+              child: _headerStyle.centerHeaderTitle
+                  ? Center(
+                      child: _buildTitle(),
+                    )
+                  : _buildTitle(),
+            ),
           ),
           Semantics(
             sortKey: _MonthPickerSortKey.nextMonth,
