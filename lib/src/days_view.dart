@@ -151,25 +151,6 @@ class _DaysView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: <Widget>[
-          Container(
-            decoration: headerStyle.decoration,
-            margin: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 40,
-            ),
-            height: _kDayPickerRowHeight,
-            alignment: headerStyle.centerHeaderTitle
-                ? Alignment.center
-                : Alignment.centerLeft,
-            child: ExcludeSemantics(
-              child: Text(
-                headerStyle.titleTextBuilder != null
-                    ? headerStyle.titleTextBuilder(displayedMonth, language)
-                    : '${formattedMonth(month, language)} ${language == Language.english ? year : NepaliUnicode.convert('$year')}',
-                style: headerStyle.titleTextStyle,
-              ),
-            ),
-          ),
           Flexible(
             child: GridView.custom(
               gridDelegate: _kDayPickerGridDelegate,
