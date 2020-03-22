@@ -1,3 +1,6 @@
+## [1.1.1]
+* Now you can use `NepaliCalendarController` to programmatically control the calendar
+
 ## [1.1.0]
 * More header styling
 * Header tap and long press gesture callback
