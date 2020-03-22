@@ -30,6 +30,12 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CleanNepaliCalendar(
+              onHeaderLongPressed: (date) {
+                print("header long pressed $date");
+              },
+              onHeaderTapped: (date) {
+                print("header tapped $date");
+              },
               calendarStyle: CalendarStyle(
                 selectedColor: Colors.deepOrange,
                 dayStyle: TextStyle(fontWeight: FontWeight.bold),

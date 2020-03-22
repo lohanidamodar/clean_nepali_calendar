@@ -13,6 +13,8 @@ class _MonthView extends StatefulWidget {
     @required this.calendarStyle,
     @required this.headerStyle,
     this.selectableDayPredicate,
+    this.onHeaderLongPressed,
+    this.onHeaderTapped,
     this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
@@ -37,6 +39,8 @@ class _MonthView extends StatefulWidget {
   final CalendarStyle calendarStyle;
 
   final HeaderStyle headerStyle;
+  final HeaderGestureCallback onHeaderTapped;
+  final HeaderGestureCallback onHeaderLongPressed;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -194,67 +198,60 @@ class _MonthViewState extends State<_MonthView>
   Widget build(BuildContext context) {
     return SizedBox(
       height: _kMaxDayPickerHeight,
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          Semantics(
-            sortKey: _MonthPickerSortKey.calendar,
-            child: NotificationListener<ScrollStartNotification>(
-              onNotification: (_) {
-                _chevronOpacityController.forward();
-                return false;
-              },
-              child: NotificationListener<ScrollEndNotification>(
-                onNotification: (_) {
-                  _chevronOpacityController.reverse();
-                  return false;
-                },
-                child: PageView.builder(
-                  dragStartBehavior: widget.dragStartBehavior,
-                  key: ValueKey<NepaliDateTime>(widget.selectedDate),
-                  controller: _dayPickerController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _monthDelta(widget.firstDate, widget.lastDate) + 1,
-                  itemBuilder: _buildItems,
-                  onPageChanged: _handleMonthPageChanged,
-                ),
-              ),
-            ),
+          _CalendarHeader(
+            onHeaderLongPressed: widget.onHeaderLongPressed,
+            onHeaderTapped: widget.onHeaderTapped,
+            language: widget.language,
+            handleNextMonth: _handleNextMonth,
+            handlePreviousMonth: _handlePreviousMonth,
+            headerStyle: widget.headerStyle,
+            chevronOpacityAnimation: _chevronOpacityAnimation,
+            isDisplayingFirstMonth: _isDisplayingFirstMonth,
+            previousMonthDate: _previousMonthDate,
+            date: _currentDisplayedMonthDate,
+            isDisplayingLastMonth: _isDisplayingLastMonth,
+            nextMonthDate: _nextMonthDate,
           ),
-          PositionedDirectional(
-            top: 0.0,
-            start: 8.0,
-            child: Semantics(
-              sortKey: _MonthPickerSortKey.previousMonth,
-              child: FadeTransition(
-                opacity: _chevronOpacityAnimation,
-                child: IconButton(
-                  padding: widget.headerStyle.leftChevronPadding,
-                  icon: widget.headerStyle.leftChevronIcon,
-                  tooltip: _isDisplayingFirstMonth
-                      ? null
-                      : 'Previous month ${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}',
-                  onPressed:
-                      _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Semantics(
+                  sortKey: _MonthPickerSortKey.calendar,
+                  child: NotificationListener<ScrollStartNotification>(
+                    onNotification: (_) {
+                      _chevronOpacityController.forward();
+                      return false;
+                    },
+                    child: NotificationListener<ScrollEndNotification>(
+                      onNotification: (_) {
+                        _chevronOpacityController.reverse();
+                        return false;
+                      },
+                      child: PageView.builder(
+                        dragStartBehavior: widget.dragStartBehavior,
+                        key: ValueKey<NepaliDateTime>(widget.selectedDate),
+                        controller: _dayPickerController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            _monthDelta(widget.firstDate, widget.lastDate) + 1,
+                        itemBuilder: _buildItems,
+                        onPageChanged: _handleMonthPageChanged,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            top: 0.0,
-            end: 8.0,
-            child: Semantics(
-              sortKey: _MonthPickerSortKey.nextMonth,
-              child: FadeTransition(
-                opacity: _chevronOpacityAnimation,
-                child: IconButton(
-                  padding: widget.headerStyle.rightChevronPadding,
-                  icon: widget.headerStyle.rightChevronIcon,
-                  tooltip: _isDisplayingLastMonth
-                      ? null
-                      : 'Next month ${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}',
-                  onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
-                ),
-              ),
+                /*  PositionedDirectional(
+                  top: 0.0,
+                  start: 8.0,
+                ), */
+                /* PositionedDirectional(
+                  top: 0.0,
+                  end: 8.0,
+                  child: 
+                ), */
+              ],
             ),
           ),
         ],
