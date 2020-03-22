@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final NepaliCalendarController _nepaliCalendarController = NepaliCalendarController();
   @override
   Widget build(BuildContext context){
     final NepaliDateTime first =NepaliDateTime(2075,5);
@@ -29,7 +30,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            RaisedButton(
+              onPressed: (){
+                print(_nepaliCalendarController.selectedDay);
+                _nepaliCalendarController.setSelectedDay(NepaliDateTime(2077,1,1));
+              },
+            ),
             CleanNepaliCalendar(
+              controller: _nepaliCalendarController,
               onHeaderLongPressed: (date) {
                 print("header long pressed $date");
               },

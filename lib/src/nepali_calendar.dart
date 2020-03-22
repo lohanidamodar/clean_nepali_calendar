@@ -29,6 +29,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.calendarStyle = const CalendarStyle(),
     this.onHeaderTapped,
     this.onHeaderLongPressed,
+    @required this.controller,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -41,6 +42,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderStyle headerStyle;
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
+  final NepaliCalendarController controller;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -51,6 +53,10 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
+    widget.controller._init(
+      selectedDayCallback: _handleDayChanged,
+      initialDay: widget.initialDate ?? NepaliDateTime.now(),
+    );
   }
 
   bool _announcedInitialDate = false;
@@ -76,6 +82,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   void didUpdateWidget(CleanNepaliCalendar oldWidget) {
     super.didUpdateWidget(oldWidget);
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
+    widget.controller
+        .setSelectedDay(widget.initialDate ?? NepaliDateTime.now());
   }
 
   NepaliDateTime _selectedDate;
@@ -92,12 +100,14 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
     }
   }
 
-  void _handleDayChanged(NepaliDateTime value) {
+  void _handleDayChanged(NepaliDateTime value, {bool runCallback = true}) {
     _vibrate();
     setState(() {
+      widget.controller.setSelectedDay(value, isProgrammatic: false);
       _selectedDate = value;
     });
-    if (widget.onDaySelected != null) widget.onDaySelected(value);
+    if (runCallback && widget.onDaySelected != null)
+      widget.onDaySelected(value);
   }
 
   Widget _buildPicker() {
