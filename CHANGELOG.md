@@ -1,3 +1,6 @@
+## 1.1.2
+* Updated to fix error with updated nepali_utils package
+
 ## 1.1.1+1
 * Readme errors fixed
 * example errors fixed
