@@ -90,7 +90,7 @@ class _DaysView extends StatelessWidget {
     final year = displayedMonth.year;
     final month = displayedMonth.month;
     final daysInMonth = displayedMonth.totalDays;
-    final firstDayOffset = displayedMonth.weekDay - 1;
+    final firstDayOffset = displayedMonth.weekday - 1;
     final labels = <Widget>[];
     if (calendarStyle.renderDaysOfWeek)
       labels.addAll(
