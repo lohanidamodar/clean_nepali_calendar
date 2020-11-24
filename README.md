@@ -59,4 +59,4 @@ Widget build(BuildContext context) {
 }
 ```
 
-Chec kout [example project](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) more detailed information.
+Check out [example project](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) more detailed information.

@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ));
               },
+
               // headerBuilder: (_,__,___,____,______)=>Text("header"),
               headerDayType: HeaderDayType.fullName,
               controller: _nepaliCalendarController,
@@ -85,68 +86,68 @@ class HomePage extends StatelessWidget {
               },
 
               // display the english date along with nepali date.
-              dateCellBuilder: (isToday, isSelected, isDisabled, nepaliDate,
-                  label, text, calendarStyle, isWeekend) {
-                // print(isSelected);
-                Decoration _buildCellDecoration() {
-                  if (isSelected && isToday) {
-                    return BoxDecoration(
-                        // shape: BoxShape.circle,
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.blue,
-                        border: Border.all(color: calendarStyle.selectedColor));
-                  }
-                  if (isSelected) {
-                    return BoxDecoration(
-                        // shape: BoxShape.circle,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: calendarStyle.selectedColor));
-                  } else if (isToday && calendarStyle.highlightToday) {
-                    return BoxDecoration(
-                      // shape: BoxShape.circle,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.transparent),
-                      color: Colors.blue,
-                    );
-                  } else {
-                    return BoxDecoration(
-                      // shape: BoxShape.circle,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.transparent),
-                    );
-                  }
-                }
+              dateCellBuilder: cellBuilder,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-                return AnimatedContainer(
-                  padding: EdgeInsets.all(3),
-                  duration: Duration(milliseconds: 2000),
-                  decoration: _buildCellDecoration(),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(text,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: isWeekend ? Colors.red : null)),
+  Widget cellBuilder(isToday, isSelected, isDisabled, nepaliDate, label, text,
+      calendarStyle, isWeekend) {
+    // print(isSelected);
+    Decoration _buildCellDecoration() {
+      if (isSelected && isToday) {
+        return BoxDecoration(
+            // shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.blue,
+            border: Border.all(color: calendarStyle.selectedColor));
+      }
+      if (isSelected) {
+        return BoxDecoration(
+            // shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: calendarStyle.selectedColor));
+      } else if (isToday && calendarStyle.highlightToday) {
+        return BoxDecoration(
+          // shape: BoxShape.circle,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.transparent),
+          color: Colors.blue,
+        );
+      } else {
+        return BoxDecoration(
+          // shape: BoxShape.circle,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.transparent),
+        );
+      }
+    }
 
-                        // to show events
-                        Align(
-                            alignment: Alignment.bottomCenter,
-                            child: CircleAvatar(
-                              radius: 1,
-                            )),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(nepaliDate.toDateTime().day.toString(),
-                              style: TextStyle(
-                                  fontSize: 8,
-                                  color: isWeekend ? Colors.red : null)),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+    return AnimatedContainer(
+      padding: EdgeInsets.all(3),
+      duration: Duration(milliseconds: 2000),
+      decoration: _buildCellDecoration(),
+      child: Center(
+        child: Column(
+          children: [
+            Text(text,
+                style: TextStyle(
+                    fontSize: 20, color: isWeekend ? Colors.red : null)),
+
+            // to show events
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: CircleAvatar(
+                  radius: 1,
+                )),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(nepaliDate.toDateTime().day.toString(),
+                  style: TextStyle(
+                      fontSize: 8, color: isWeekend ? Colors.red : null)),
             ),
           ],
         ),
