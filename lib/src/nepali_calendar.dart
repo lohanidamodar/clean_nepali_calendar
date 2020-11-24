@@ -30,6 +30,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.onHeaderTapped,
     this.onHeaderLongPressed,
     @required this.controller,
+    this.headerDayType = HeaderDayType.initial, this.headerDayBuilder, this.dateCellBuilder,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -43,6 +44,9 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
   final NepaliCalendarController controller;
+  final HeaderDayType headerDayType;
+  final HeaderDayBuilder headerDayBuilder;
+  final DateCellBuilder dateCellBuilder;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -125,6 +129,9 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
         selectableDayPredicate: widget.selectableDayPredicate,
         onHeaderTapped: widget.onHeaderTapped,
         onHeaderLongPressed: widget.onHeaderLongPressed,
+        headerDayType: widget.headerDayType,
+        headerDayBuilder: widget.headerDayBuilder,
+          dateCellBuilder: widget.dateCellBuilder,
       ),
     );
   }

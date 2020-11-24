@@ -16,6 +16,8 @@ class _MonthView extends StatefulWidget {
     this.onHeaderLongPressed,
     this.onHeaderTapped,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.headerDayType = HeaderDayType.initial,
+    this.headerDayBuilder, this.dateCellBuilder,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
@@ -42,6 +44,11 @@ class _MonthView extends StatefulWidget {
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
 
+  final HeaderDayType headerDayType;
+
+  // build custom header
+  final HeaderDayBuilder headerDayBuilder;
+final DateCellBuilder dateCellBuilder;
   @override
   _MonthViewState createState() => _MonthViewState();
 }
@@ -148,6 +155,9 @@ class _MonthViewState extends State<_MonthView>
       language: widget.language,
       selectableDayPredicate: widget.selectableDayPredicate,
       dragStartBehavior: widget.dragStartBehavior,
+      headerDayType: widget.headerDayType,
+      headerDayBuilder: widget.headerDayBuilder,
+        dateCellBuilder:widget.dateCellBuilder,
     );
   }
 
