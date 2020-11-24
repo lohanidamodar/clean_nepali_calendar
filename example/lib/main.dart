@@ -38,13 +38,15 @@ class HomePage extends StatelessWidget {
                 return Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(top:5.0),
+                      padding: const EdgeInsets.only(top: 5.0),
                       child: Text(
                         '$_',
-                        style: TextStyle(color: (index == 6) ? Colors.red : null),
+                        style:
+                            TextStyle(color: (index == 6) ? Colors.red : null),
                       ),
                     ));
               },
+              // headerBuilder: (_,__,___,____,______)=>Text("header"),
               headerDayType: HeaderDayType.fullName,
               controller: _nepaliCalendarController,
               onHeaderLongPressed: (date) {
@@ -54,6 +56,7 @@ class HomePage extends StatelessWidget {
                 print("header tapped $date");
               },
               calendarStyle: CalendarStyle(
+                // weekEndTextColor : Colors.green,
                 selectedColor: Colors.deepOrange,
                 dayStyle: TextStyle(fontWeight: FontWeight.bold),
                 todayStyle: TextStyle(
@@ -76,9 +79,12 @@ class HomePage extends StatelessWidget {
               firstDate: first,
               lastDate: last,
               language: Language.nepali,
+
               onDaySelected: (day) {
                 print(day.toString());
               },
+
+              // display the english date along with nepali date.
               dateCellBuilder: (isToday, isSelected, isDisabled, nepaliDate,
                   label, text, calendarStyle, isWeekend) {
                 // print(isSelected);
@@ -116,32 +122,27 @@ class HomePage extends StatelessWidget {
                   duration: Duration(milliseconds: 2000),
                   decoration: _buildCellDecoration(),
                   child: Center(
-                    child: Semantics(
-                      label: label,
-                      selected: isSelected,
-                      child: ExcludeSemantics(
-                        child: Column(
-                          children: [
-                            Text(text,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: isWeekend ? Colors.red : null)),
+                    child: Column(
+                      children: [
+                        Text(text,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: isWeekend ? Colors.red : null)),
 
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: CircleAvatar(radius: 1,)
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                  nepaliDate.toDateTime().day.toString(),
-                                  style: TextStyle(
-                                      fontSize: 8,
-                                      color: isWeekend ? Colors.red : null)),
-                            ),
-                          ],
+                        // to show events
+                        Align(
+                            alignment: Alignment.bottomCenter,
+                            child: CircleAvatar(
+                              radius: 1,
+                            )),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(nepaliDate.toDateTime().day.toString(),
+                              style: TextStyle(
+                                  fontSize: 8,
+                                  color: isWeekend ? Colors.red : null)),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 );

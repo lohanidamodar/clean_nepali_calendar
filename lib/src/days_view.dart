@@ -117,7 +117,9 @@ class _DaysView extends StatelessWidget {
                     child: Text(
                       label.value,
                       style: headerStyle.copyWith(
-                        color: label.key == 6 ? Colors.red : headerStyle.color,
+                        color: label.key == 6
+                            ? calendarStyle.weekEndTextColor
+                            : headerStyle.color,
                       ),
                     ),
                   ),

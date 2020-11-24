@@ -35,6 +35,9 @@ class CalendarStyle {
   /// Specifies whether or not Today should be highlighted.
   final bool highlightToday;
 
+  /// show different colors for weekend, currently only saturday
+  final Color weekEndTextColor;
+
   const CalendarStyle({
     this.dayStyle = const TextStyle(),
     this.selectedStyle = const TextStyle(
@@ -49,5 +52,6 @@ class CalendarStyle {
         const EdgeInsets.only(bottom: 4.0, left: 8.0, right: 8.0),
     this.highlightSelected = true,
     this.highlightToday = true,
+    this.weekEndTextColor = Colors.red,
   });
 }

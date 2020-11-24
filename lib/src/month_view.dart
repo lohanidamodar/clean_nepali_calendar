@@ -19,6 +19,7 @@ class _MonthView extends StatefulWidget {
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
+    this.headerBuilder,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
@@ -50,6 +51,7 @@ class _MonthView extends StatefulWidget {
   // build custom header
   final HeaderDayBuilder headerDayBuilder;
   final DateCellBuilder dateCellBuilder;
+  final HeaderBuilder headerBuilder;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -216,21 +218,23 @@ class _MonthViewState extends State<_MonthView>
       child: Column(
         children: <Widget>[
           _CalendarHeader(
-              onHeaderLongPressed: widget.onHeaderLongPressed,
-              onHeaderTapped: widget.onHeaderTapped,
-              language: widget.language,
-              handleNextMonth: _handleNextMonth,
-              handlePreviousMonth: _handlePreviousMonth,
-              headerStyle: widget.headerStyle,
-              chevronOpacityAnimation: _chevronOpacityAnimation,
-              isDisplayingFirstMonth: _isDisplayingFirstMonth,
-              previousMonthDate: _previousMonthDate,
-              date: _currentDisplayedMonthDate,
-              isDisplayingLastMonth: _isDisplayingLastMonth,
-              nextMonthDate: _nextMonthDate,
-              changeToToday: () {
-                widget.onChanged(NepaliDateTime.now());
-              }),
+            onHeaderLongPressed: widget.onHeaderLongPressed,
+            onHeaderTapped: widget.onHeaderTapped,
+            language: widget.language,
+            handleNextMonth: _handleNextMonth,
+            handlePreviousMonth: _handlePreviousMonth,
+            headerStyle: widget.headerStyle,
+            chevronOpacityAnimation: _chevronOpacityAnimation,
+            isDisplayingFirstMonth: _isDisplayingFirstMonth,
+            previousMonthDate: _previousMonthDate,
+            date: _currentDisplayedMonthDate,
+            isDisplayingLastMonth: _isDisplayingLastMonth,
+            nextMonthDate: _nextMonthDate,
+            changeToToday: () {
+              widget.onChanged(NepaliDateTime.now());
+            },
+            headerBuilder: widget.headerBuilder,
+          ),
           Expanded(
             child: Stack(
               children: <Widget>[

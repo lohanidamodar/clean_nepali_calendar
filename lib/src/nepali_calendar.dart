@@ -30,7 +30,10 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.onHeaderTapped,
     this.onHeaderLongPressed,
     @required this.controller,
-    this.headerDayType = HeaderDayType.initial, this.headerDayBuilder, this.dateCellBuilder,
+    this.headerDayType = HeaderDayType.initial,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
+    this.headerBuilder,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -47,6 +50,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderDayType headerDayType;
   final HeaderDayBuilder headerDayBuilder;
   final DateCellBuilder dateCellBuilder;
+  final HeaderBuilder headerBuilder;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -94,12 +98,22 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
-    switch (Theme.of(context).platform) { // ignore: missing_enum_constant_in_switch
+    switch (Theme.of(context).platform) {
+      // ignore: missing_enum_constant_in_switch
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         HapticFeedback.vibrate();
         break;
       case TargetPlatform.iOS:
+        break;
+      case TargetPlatform.linux:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.macOS:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.windows:
+        // TODO: Handle this case.
         break;
     }
   }
@@ -129,7 +143,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       onHeaderLongPressed: widget.onHeaderLongPressed,
       headerDayType: widget.headerDayType,
       headerDayBuilder: widget.headerDayBuilder,
-        dateCellBuilder: widget.dateCellBuilder,
+      dateCellBuilder: widget.dateCellBuilder,
+      headerBuilder: widget.headerBuilder,
     );
   }
 

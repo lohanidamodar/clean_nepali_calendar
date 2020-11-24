@@ -80,7 +80,11 @@ class _DayWidget extends StatelessWidget {
                 label: label,
                 selected: isSelected,
                 child: ExcludeSemantics(
-                  child: Text(text, style: _buildCellTextStyle()),
+                  child: Text(text,
+                      style: _buildCellTextStyle().copyWith(
+                          color: isWeekend
+                              ? calendarStyle.weekEndTextColor
+                              : null)),
                 ),
               ),
             ),
