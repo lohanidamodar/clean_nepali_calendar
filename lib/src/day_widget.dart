@@ -7,7 +7,8 @@ typedef Widget DateCellBuilder(
   NepaliDateTime nepaliDate,
   String label,
   String text,
-    CalendarStyle calendarStyle,
+  CalendarStyle calendarStyle,
+  bool isWeekend,
 );
 
 class _DayWidget extends StatelessWidget {
@@ -22,6 +23,7 @@ class _DayWidget extends StatelessWidget {
     @required this.calendarStyle,
     @required this.day,
     this.builder,
+    this.isWeekend,
   }) : super(key: key);
 
   final bool isSelected;
@@ -33,6 +35,7 @@ class _DayWidget extends StatelessWidget {
   final CalendarStyle calendarStyle;
   final NepaliDateTime day;
   final DateCellBuilder builder;
+  final bool isWeekend;
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +69,10 @@ class _DayWidget extends StatelessWidget {
       }
     }
 
-    return
-      (builder != null)
-        ? builder(
-            isToday,
-            isSelected,
-            isDisabled,
-            day,
-            label,
-            text,
-          calendarStyle
-          )
-        :
-      AnimatedContainer(
+    return (builder != null)
+        ? builder(isToday, isSelected, isDisabled, day, label, text,
+            calendarStyle, isWeekend)
+        : AnimatedContainer(
             duration: Duration(milliseconds: 2000),
             decoration: _buildCellDecoration(),
             child: Center(

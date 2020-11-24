@@ -223,6 +223,9 @@ class _MonthViewState extends State<_MonthView>
             date: _currentDisplayedMonthDate,
             isDisplayingLastMonth: _isDisplayingLastMonth,
             nextMonthDate: _nextMonthDate,
+            changeToToday: (){
+              widget.onChanged(NepaliDateTime.now());
+            }
           ),
           Expanded(
             child: Stack(

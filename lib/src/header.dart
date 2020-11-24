@@ -15,8 +15,8 @@ class _CalendarHeader extends StatelessWidget {
     @required Function() handlePreviousMonth,
     @required this.onHeaderTapped,
     @required this.onHeaderLongPressed,
-  })  : _chevronOpacityAnimation = chevronOpacityAnimation,
-        _isDisplayingFirstMonth = isDisplayingFirstMonth,
+    @required changeToToday,
+  })  : _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
         date = date,
         _isDisplayingLastMonth = isDisplayingLastMonth,
@@ -25,9 +25,10 @@ class _CalendarHeader extends StatelessWidget {
         _handleNextMonth = handleNextMonth,
         _handlePreviousMonth = handlePreviousMonth,
         _language = language,
+        _changeToToday = changeToToday,
         super(key: key);
 
-  final Animation<double> _chevronOpacityAnimation;
+  // final Animation<double> _chevronOpacityAnimation;
   final bool _isDisplayingFirstMonth;
   final NepaliDateTime _previousMonthDate;
   final NepaliDateTime date;
@@ -36,6 +37,7 @@ class _CalendarHeader extends StatelessWidget {
   final HeaderStyle _headerStyle;
   final Function() _handleNextMonth;
   final Function() _handlePreviousMonth;
+  final Function() _changeToToday;
   final Language _language;
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
@@ -54,15 +56,32 @@ class _CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: _headerStyle.decoration,
-      height: _kDayPickerRowHeight,
-      child: Row(
-        children: <Widget>[
-          Semantics(
-            sortKey: _MonthPickerSortKey.previousMonth,
-            child: FadeTransition(
-              opacity: _chevronOpacityAnimation,
+    return InkWell(
+      onTap: _onHeaderTapped,
+      onLongPress: _onHeaderLongPressed,
+      child: Container(
+        decoration: _headerStyle.decoration,
+        height: _kDayPickerRowHeight,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: _headerStyle.centerHeaderTitle
+                  ? Center(
+                      child: _buildTitle(),
+                    )
+                  : _buildTitle(),
+            ),
+            InkWell(
+              onTap: _changeToToday,
+              child: Text(
+                _language == Language.nepali? "आज" : 'Today',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Semantics(
+              sortKey: _MonthPickerSortKey.previousMonth,
               child: IconButton(
                 padding: _headerStyle.leftChevronPadding,
                 icon: _headerStyle.leftChevronIcon,
@@ -73,22 +92,8 @@ class _CalendarHeader extends StatelessWidget {
                     _isDisplayingFirstMonth ? null : _handlePreviousMonth,
               ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: _onHeaderTapped,
-              onLongPress: _onHeaderLongPressed,
-              child: _headerStyle.centerHeaderTitle
-                  ? Center(
-                      child: _buildTitle(),
-                    )
-                  : _buildTitle(),
-            ),
-          ),
-          Semantics(
-            sortKey: _MonthPickerSortKey.nextMonth,
-            child: FadeTransition(
-              opacity: _chevronOpacityAnimation,
+            Semantics(
+              sortKey: _MonthPickerSortKey.nextMonth,
               child: IconButton(
                 padding: _headerStyle.rightChevronPadding,
                 icon: _headerStyle.rightChevronIcon,
@@ -98,29 +103,81 @@ class _CalendarHeader extends StatelessWidget {
                 onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  FadeTransition _buildTitle() {
-    return FadeTransition(
-      opacity: _chevronOpacityAnimation,
-      child: ExcludeSemantics(
-        child: Text(
-          _headerStyle.titleTextBuilder != null
-              ? _headerStyle.titleTextBuilder(
-                  date,
-                  _language,
-                )
-              : '${formattedMonth(date.month, _language)} ${_language == Language.english ? date.year : NepaliUnicode.convert('${date.year}')}',
-          style: _headerStyle.titleTextStyle,
-          textAlign: _headerStyle.centerHeaderTitle
-              ? TextAlign.center
-              : TextAlign.start,
+  Widget _buildTitle() {
+    return ExcludeSemantics(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  _headerStyle.titleTextBuilder != null
+                      ? _headerStyle.titleTextBuilder(
+                          date,
+                          _language,
+                        )
+                      : '${formattedMonth(date.month, _language)} - ${_language == Language.english ? date.year : NepaliUnicode.convert('${date.year}')}',
+                  style: _headerStyle.titleTextStyle,
+                  textAlign: _headerStyle.centerHeaderTitle
+                      ? TextAlign.center
+                      : TextAlign.start,
+                ),
+                Icon(Icons.arrow_drop_down)
+              ],
+            ),
+            Text(
+              _headerStyle.titleTextBuilder != null
+                  ? _headerStyle.titleTextBuilder(
+                      date,
+                      _language,
+                    )
+                  : "${getFormattedEnglishMonth(date.toDateTime().month)}/${getFormattedEnglishMonth(date.toDateTime().month + 1)} - ${date.toDateTime().year}",
+              style: _headerStyle.titleTextStyle
+                  .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
+              textAlign: _headerStyle.centerHeaderTitle
+                  ? TextAlign.center
+                  : TextAlign.start,
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+String getFormattedEnglishMonth(int mnth) {
+  switch (mnth) {
+    case DateTime.january:
+      return "Jan";
+    case DateTime.february:
+      return "Feb";
+    case DateTime.march:
+      return "Mar";
+    case DateTime.april:
+      return "April";
+    case DateTime.june:
+      return "Jun";
+    case DateTime.july:
+      return "Jul";
+    case DateTime.august:
+      return "Aug";
+    case DateTime.september:
+      return "Sep";
+    case DateTime.october:
+      return "Oct";
+    case DateTime.november:
+      return "Nov";
+    case DateTime.december:
+      return "Dec";
+    default:
+      return "Jan";
   }
 }

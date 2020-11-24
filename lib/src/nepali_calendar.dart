@@ -94,7 +94,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context).platform) { // ignore: missing_enum_constant_in_switch
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         HapticFeedback.vibrate();
@@ -115,24 +115,21 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   Widget _buildPicker() {
-    return Padding(
-      padding: widget.calendarStyle.contentPadding,
-      child: _MonthView(
-        key: _pickerKey,
-        headerStyle: widget.headerStyle,
-        calendarStyle: widget.calendarStyle,
-        language: widget.language,
-        selectedDate: _selectedDate,
-        onChanged: _handleDayChanged,
-        firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
-        lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
-        selectableDayPredicate: widget.selectableDayPredicate,
-        onHeaderTapped: widget.onHeaderTapped,
-        onHeaderLongPressed: widget.onHeaderLongPressed,
-        headerDayType: widget.headerDayType,
-        headerDayBuilder: widget.headerDayBuilder,
-          dateCellBuilder: widget.dateCellBuilder,
-      ),
+    return _MonthView(
+      key: _pickerKey,
+      headerStyle: widget.headerStyle,
+      calendarStyle: widget.calendarStyle,
+      language: widget.language,
+      selectedDate: _selectedDate,
+      onChanged: _handleDayChanged,
+      firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
+      lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
+      selectableDayPredicate: widget.selectableDayPredicate,
+      onHeaderTapped: widget.onHeaderTapped,
+      onHeaderLongPressed: widget.onHeaderLongPressed,
+      headerDayType: widget.headerDayType,
+      headerDayBuilder: widget.headerDayBuilder,
+        dateCellBuilder: widget.dateCellBuilder,
     );
   }
 

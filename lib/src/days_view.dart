@@ -2,7 +2,7 @@ part of clean_nepali_calendar;
 
 typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
 
-const double _kDayPickerRowHeight = 42.0;
+const double _kDayPickerRowHeight = 40.0;
 
 class _DayPickerGridDelegate extends SliverGridDelegate {
   const _DayPickerGridDelegate();
@@ -44,7 +44,8 @@ class _DaysView extends StatelessWidget {
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
     this.headerDayType = HeaderDayType.initial,
-    this.headerDayBuilder, this.dateCellBuilder,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
   })  : assert(selectedDate != null),
         assert(currentDate != null),
         assert(onChanged != null),
@@ -113,7 +114,12 @@ class _DaysView extends StatelessWidget {
             child: builder != null
                 ? builder(label.value, label.key)
                 : Center(
-                    child: Text(label.value, style: headerStyle),
+                    child: Text(
+                      label.value,
+                      style: headerStyle.copyWith(
+                        color: label.key == 6 ? Colors.red : headerStyle.color,
+                      ),
+                    ),
                   ),
           ),
         )
@@ -133,7 +139,11 @@ class _DaysView extends StatelessWidget {
         _getDayHeaders(language, themeData.textTheme.caption, headerDayType,
             headerDayBuilder),
       );
+
+    //this weekNumber is to determine the weekend, saturday.
+    int weekNumber = 0;
     for (var i = 0; true; i += 1) {
+      if (weekNumber > 6) weekNumber = 0;
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
       final day = i - firstDayOffset + 1;
@@ -165,7 +175,8 @@ class _DaysView extends StatelessWidget {
           isToday: isCurrentDay,
           isSelected: isSelectedDay,
           calendarStyle: calendarStyle,
-             day: dayToBuild,
+          day: dayToBuild,
+          isWeekend: weekNumber == 6,
           onTap: () {
             onChanged(dayToBuild);
           },
@@ -184,21 +195,21 @@ class _DaysView extends StatelessWidget {
         }
         labels.add(dayWidget);
       }
+
+      weekNumber += 1;
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: <Widget>[
-          Flexible(
-            child: GridView.custom(
-              gridDelegate: _kDayPickerGridDelegate,
-              childrenDelegate:
-                  SliverChildListDelegate(labels, addRepaintBoundaries: false),
-            ),
+    return Column(
+      children: <Widget>[
+        Flexible(
+          child: GridView.custom(
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: _kDayPickerGridDelegate,
+            childrenDelegate:
+                SliverChildListDelegate(labels, addRepaintBoundaries: false),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -35,9 +35,17 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             CleanNepaliCalendar(
               headerDayBuilder: (_, index) {
-                return Text('$_');
+                return Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:5.0),
+                      child: Text(
+                        '$_',
+                        style: TextStyle(color: (index == 6) ? Colors.red : null),
+                      ),
+                    ));
               },
-              headerDayType: HeaderDayType.halfName,
+              headerDayType: HeaderDayType.fullName,
               controller: _nepaliCalendarController,
               onHeaderLongPressed: (date) {
                 print("header long pressed $date");
@@ -71,8 +79,8 @@ class HomePage extends StatelessWidget {
                 print(day.toString());
               },
               dateCellBuilder: (isToday, isSelected, isDisabled, nepaliDate,
-                  label, text, calendarStyle) {
-                print(isSelected);
+                  label, text, calendarStyle, isWeekend) {
+                // print(isSelected);
                 Decoration _buildCellDecoration() {
                   if (isSelected && isToday) {
                     return BoxDecoration(
@@ -113,12 +121,22 @@ class HomePage extends StatelessWidget {
                       child: ExcludeSemantics(
                         child: Column(
                           children: [
-                            Text(text, style: TextStyle(fontSize: 20)),
+                            Text(text,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: isWeekend ? Colors.red : null)),
+
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: CircleAvatar(radius: 1,)
+                            ),
                             Align(
                               alignment: Alignment.bottomRight,
                               child: Text(
                                   nepaliDate.toDateTime().day.toString(),
-                                  style: TextStyle(fontSize: 8)),
+                                  style: TextStyle(
+                                      fontSize: 8,
+                                      color: isWeekend ? Colors.red : null)),
                             ),
                           ],
                         ),
