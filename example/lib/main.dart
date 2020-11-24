@@ -65,6 +65,7 @@ class HomePage extends StatelessWidget {
                 highlightToday: true,
               ),
               headerStyle: HeaderStyle(
+                enableFadeTransition: false,
                 centerHeaderTitle: false,
                 titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,

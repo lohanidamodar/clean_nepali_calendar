@@ -17,7 +17,8 @@ class _MonthView extends StatefulWidget {
     this.onHeaderTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.headerDayType = HeaderDayType.initial,
-    this.headerDayBuilder, this.dateCellBuilder,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
@@ -48,7 +49,8 @@ class _MonthView extends StatefulWidget {
 
   // build custom header
   final HeaderDayBuilder headerDayBuilder;
-final DateCellBuilder dateCellBuilder;
+  final DateCellBuilder dateCellBuilder;
+
   @override
   _MonthViewState createState() => _MonthViewState();
 }
@@ -73,8 +75,11 @@ class _MonthViewState extends State<_MonthView>
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-    _chevronOpacityAnimation =
-        _chevronOpacityController.drive(_chevronOpacityTween);
+
+    _chevronOpacityAnimation = widget.headerStyle.enableFadeTransition
+        ? _chevronOpacityController.drive(_chevronOpacityTween)
+        : _chevronOpacityController.drive(Tween<double>(begin: 1.0, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeInOut)));
   }
 
   @override
@@ -157,7 +162,7 @@ class _MonthViewState extends State<_MonthView>
       dragStartBehavior: widget.dragStartBehavior,
       headerDayType: widget.headerDayType,
       headerDayBuilder: widget.headerDayBuilder,
-        dateCellBuilder:widget.dateCellBuilder,
+      dateCellBuilder: widget.dateCellBuilder,
     );
   }
 
@@ -211,22 +216,21 @@ class _MonthViewState extends State<_MonthView>
       child: Column(
         children: <Widget>[
           _CalendarHeader(
-            onHeaderLongPressed: widget.onHeaderLongPressed,
-            onHeaderTapped: widget.onHeaderTapped,
-            language: widget.language,
-            handleNextMonth: _handleNextMonth,
-            handlePreviousMonth: _handlePreviousMonth,
-            headerStyle: widget.headerStyle,
-            chevronOpacityAnimation: _chevronOpacityAnimation,
-            isDisplayingFirstMonth: _isDisplayingFirstMonth,
-            previousMonthDate: _previousMonthDate,
-            date: _currentDisplayedMonthDate,
-            isDisplayingLastMonth: _isDisplayingLastMonth,
-            nextMonthDate: _nextMonthDate,
-            changeToToday: (){
-              widget.onChanged(NepaliDateTime.now());
-            }
-          ),
+              onHeaderLongPressed: widget.onHeaderLongPressed,
+              onHeaderTapped: widget.onHeaderTapped,
+              language: widget.language,
+              handleNextMonth: _handleNextMonth,
+              handlePreviousMonth: _handlePreviousMonth,
+              headerStyle: widget.headerStyle,
+              chevronOpacityAnimation: _chevronOpacityAnimation,
+              isDisplayingFirstMonth: _isDisplayingFirstMonth,
+              previousMonthDate: _previousMonthDate,
+              date: _currentDisplayedMonthDate,
+              isDisplayingLastMonth: _isDisplayingLastMonth,
+              nextMonthDate: _nextMonthDate,
+              changeToToday: () {
+                widget.onChanged(NepaliDateTime.now());
+              }),
           Expanded(
             child: Stack(
               children: <Widget>[

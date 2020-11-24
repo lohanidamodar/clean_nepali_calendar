@@ -16,7 +16,8 @@ class _CalendarHeader extends StatelessWidget {
     @required this.onHeaderTapped,
     @required this.onHeaderLongPressed,
     @required changeToToday,
-  })  : _isDisplayingFirstMonth = isDisplayingFirstMonth,
+  })  : _chevronOpacityAnimation = chevronOpacityAnimation,
+        _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
         date = date,
         _isDisplayingLastMonth = isDisplayingLastMonth,
@@ -28,7 +29,7 @@ class _CalendarHeader extends StatelessWidget {
         _changeToToday = changeToToday,
         super(key: key);
 
-  // final Animation<double> _chevronOpacityAnimation;
+  final Animation<double> _chevronOpacityAnimation;
   final bool _isDisplayingFirstMonth;
   final NepaliDateTime _previousMonthDate;
   final NepaliDateTime date;
@@ -74,7 +75,7 @@ class _CalendarHeader extends StatelessWidget {
             InkWell(
               onTap: _changeToToday,
               child: Text(
-                _language == Language.nepali? "आज" : 'Today',
+                _language == Language.nepali ? "आज" : 'Today',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -82,25 +83,31 @@ class _CalendarHeader extends StatelessWidget {
             ),
             Semantics(
               sortKey: _MonthPickerSortKey.previousMonth,
-              child: IconButton(
-                padding: _headerStyle.leftChevronPadding,
-                icon: _headerStyle.leftChevronIcon,
-                tooltip: _isDisplayingFirstMonth
-                    ? null
-                    : 'Previous month ${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}',
-                onPressed:
-                    _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+              child: FadeTransition(
+                opacity: _chevronOpacityAnimation,
+                child: IconButton(
+                  padding: _headerStyle.leftChevronPadding,
+                  icon: _headerStyle.leftChevronIcon,
+                  tooltip: _isDisplayingFirstMonth
+                      ? null
+                      : 'Previous month ${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}',
+                  onPressed:
+                      _isDisplayingFirstMonth ? null : _handlePreviousMonth,
+                ),
               ),
             ),
             Semantics(
               sortKey: _MonthPickerSortKey.nextMonth,
-              child: IconButton(
-                padding: _headerStyle.rightChevronPadding,
-                icon: _headerStyle.rightChevronIcon,
-                tooltip: _isDisplayingLastMonth
-                    ? null
-                    : 'Next month ${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}',
-                onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+              child: FadeTransition(
+                opacity: _chevronOpacityAnimation,
+                child: IconButton(
+                  padding: _headerStyle.rightChevronPadding,
+                  icon: _headerStyle.rightChevronIcon,
+                  tooltip: _isDisplayingLastMonth
+                      ? null
+                      : 'Next month ${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}',
+                  onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+                ),
               ),
             ),
           ],
@@ -110,43 +117,46 @@ class _CalendarHeader extends StatelessWidget {
   }
 
   Widget _buildTitle() {
-    return ExcludeSemantics(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  _headerStyle.titleTextBuilder != null
-                      ? _headerStyle.titleTextBuilder(
-                          date,
-                          _language,
-                        )
-                      : '${formattedMonth(date.month, _language)} - ${_language == Language.english ? date.year : NepaliUnicode.convert('${date.year}')}',
-                  style: _headerStyle.titleTextStyle,
-                  textAlign: _headerStyle.centerHeaderTitle
-                      ? TextAlign.center
-                      : TextAlign.start,
-                ),
-                Icon(Icons.arrow_drop_down)
-              ],
-            ),
-            Text(
-              _headerStyle.titleTextBuilder != null
-                  ? _headerStyle.titleTextBuilder(
-                      date,
-                      _language,
-                    )
-                  : "${getFormattedEnglishMonth(date.toDateTime().month)}/${getFormattedEnglishMonth(date.toDateTime().month + 1)} - ${date.toDateTime().year}",
-              style: _headerStyle.titleTextStyle
-                  .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-              textAlign: _headerStyle.centerHeaderTitle
-                  ? TextAlign.center
-                  : TextAlign.start,
-            ),
-          ],
+    return FadeTransition(
+      opacity: _chevronOpacityAnimation,
+      child: ExcludeSemantics(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    _headerStyle.titleTextBuilder != null
+                        ? _headerStyle.titleTextBuilder(
+                            date,
+                            _language,
+                          )
+                        : '${formattedMonth(date.month, _language)} - ${_language == Language.english ? date.year : NepaliUnicode.convert('${date.year}')}',
+                    style: _headerStyle.titleTextStyle,
+                    textAlign: _headerStyle.centerHeaderTitle
+                        ? TextAlign.center
+                        : TextAlign.start,
+                  ),
+                  Icon(Icons.arrow_drop_down)
+                ],
+              ),
+              Text(
+                _headerStyle.titleTextBuilder != null
+                    ? _headerStyle.titleTextBuilder(
+                        date,
+                        _language,
+                      )
+                    : "${getFormattedEnglishMonth(date.toDateTime().month)}/${getFormattedEnglishMonth(date.toDateTime().month + 1)} - ${date.toDateTime().year}",
+                style: _headerStyle.titleTextStyle
+                    .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
+                textAlign: _headerStyle.centerHeaderTitle
+                    ? TextAlign.center
+                    : TextAlign.start,
+              ),
+            ],
+          ),
         ),
       ),
     );
