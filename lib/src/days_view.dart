@@ -1,6 +1,7 @@
 part of clean_nepali_calendar;
 
 typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
+typedef Widget EmptyCellBuilder();
 
 class _DayPickerGridDelegate extends SliverGridDelegate {
   final double _kDayPickerRowHeight;
@@ -46,6 +47,7 @@ class _DaysView extends StatelessWidget {
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
+    this.emptyCellBuilder,
   })  : assert(selectedDate != null),
         assert(currentDate != null),
         assert(onChanged != null),
@@ -77,6 +79,7 @@ class _DaysView extends StatelessWidget {
   final HeaderDayType headerDayType;
   final HeaderDayBuilder headerDayBuilder;
   final DateCellBuilder dateCellBuilder;
+  final EmptyCellBuilder emptyCellBuilder;
 
   List<Widget> _getDayHeaders(Language language, TextStyle headerStyle,
       HeaderDayType headerDayType, HeaderDayBuilder builder) {
@@ -149,9 +152,13 @@ class _DaysView extends StatelessWidget {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
       final day = i - firstDayOffset + 1;
-      if (day > daysInMonth) break;
-      if (day < 1) {
-        labels.add(Container());
+
+      if (day > daysInMonth && labels.length % 7 == 0) break;
+
+      if (day > daysInMonth) {
+        labels.add(emptyCellBuilder != null ? emptyCellBuilder() : Container());
+      } else if (day < 1) {
+        labels.add(emptyCellBuilder != null ? emptyCellBuilder() : Container());
       } else {
         final dayToBuild = NepaliDateTime(year, month, day);
         final disabled = dayToBuild.isAfter(lastDate) ||
@@ -200,18 +207,14 @@ class _DaysView extends StatelessWidget {
 
       weekNumber += 1;
     }
-
-    return Column(
-      children: <Widget>[
-        Flexible(
-          child: GridView.custom(
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: _DayPickerGridDelegate(calendarStyle.cellHeight),
-            childrenDelegate:
-                SliverChildListDelegate(labels, addRepaintBoundaries: false),
-          ),
-        ),
-      ],
+    print(labels.length);
+    return GridView.custom(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      // physics: ClampingScrollPhysics(),
+      gridDelegate: _DayPickerGridDelegate(calendarStyle.cellHeight),
+      childrenDelegate:
+          SliverChildListDelegate(labels, addRepaintBoundaries: false),
     );
   }
 }

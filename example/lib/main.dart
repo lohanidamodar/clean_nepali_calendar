@@ -33,82 +33,87 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            CleanNepaliCalendar(
-              headerDayBuilder: (_, index) {
-                return Container(
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          '$_',
-                          style: TextStyle(
-                              color: (index == 6) ? Colors.red : null),
-                        ),
-                      )),
-                );
-              },
+            Container(
+              color: Colors.red,
+              child: CleanNepaliCalendar(
+                headerDayBuilder: (_, index) {
+                  return Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black)),
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Text(
+                            '$_',
+                            style: TextStyle(
+                                color: (index == 6) ? Colors.red : null),
+                          ),
+                        )),
+                  );
+                },
 
-              // headerBuilder: (_, __, ___, ____, ______) => Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Text("add custom header here"),
-              // ),
-              headerDayType: HeaderDayType.halfName,
-              controller: _nepaliCalendarController,
-              onHeaderLongPressed: (date) {
-                print("header long pressed $date");
-              },
-              onHeaderTapped: (date) {
-                print("header tapped $date");
-              },
-              calendarStyle: CalendarStyle(
-                cellHeight: 100,
-                headerHeight: 100,
-                // weekEndTextColor : Colors.green,
-                selectedColor: Colors.deepOrange,
-                dayStyle: TextStyle(fontWeight: FontWeight.bold),
-                todayStyle: TextStyle(
-                  fontSize: 20.0,
-                ),
-                todayColor: Colors.orange.shade400,
-                // highlightSelected: true,
-                renderDaysOfWeek: true,
-                highlightToday: true,
-              ),
-              headerStyle: HeaderStyle(
-                enableFadeTransition: false,
-                centerHeaderTitle: false,
-                titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepOrange,
-                    fontSize: 20.0),
-              ),
-              initialDate: NepaliDateTime.now(),
-              firstDate: first,
-              lastDate: last,
-              language: Language.nepali,
-
-              onDaySelected: (day) {
-                print(day.toString());
-              },
-
-              // display the english date along with nepali date.
-              dateCellBuilder: (isToday, isSelected, isDisabled, nepaliDate,
-                  label, text, calendarStyle, isWeekend) {
-                return Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      color: Colors.amberAccent),
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                        color:
-                            isWeekend ? calendarStyle.weekEndTextColor : null),
+                // headerBuilder: (_, __, ___, ____, ______) => Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text("add custom header here"),
+                // ),
+                emptyCellBuilder: () => Text('such a empty'),
+                headerDayType: HeaderDayType.halfName,
+                controller: _nepaliCalendarController,
+                onHeaderLongPressed: (date) {
+                  print("header long pressed $date");
+                },
+                onHeaderTapped: (date) {
+                  print("header tapped $date");
+                },
+                calendarStyle: CalendarStyle(
+                  cellHeight: 100,
+                  headerHeight: 100,
+                  // weekEndTextColor : Colors.green,
+                  selectedColor: Colors.deepOrange,
+                  dayStyle: TextStyle(fontWeight: FontWeight.bold),
+                  todayStyle: TextStyle(
+                    fontSize: 20.0,
                   ),
-                );
-              },
+                  todayColor: Colors.orange.shade400,
+                  // highlightSelected: true,
+                  renderDaysOfWeek: true,
+                  highlightToday: true,
+                ),
+                headerStyle: HeaderStyle(
+                  enableFadeTransition: false,
+                  centerHeaderTitle: false,
+                  titleTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
+                      fontSize: 20.0),
+                ),
+                initialDate: NepaliDateTime.now(),
+                firstDate: first,
+                lastDate: last,
+                language: Language.nepali,
+
+                onDaySelected: (day) {
+                  print(day.toString());
+                },
+
+                // display the english date along with nepali date.
+                dateCellBuilder: (isToday, isSelected, isDisabled, nepaliDate,
+                    label, text, calendarStyle, isWeekend) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        color: Colors.amberAccent),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                          color: isWeekend
+                              ? calendarStyle.weekEndTextColor
+                              : null),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

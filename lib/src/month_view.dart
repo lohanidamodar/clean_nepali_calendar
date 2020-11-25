@@ -20,6 +20,7 @@ class _MonthView extends StatefulWidget {
     this.headerDayBuilder,
     this.dateCellBuilder,
     this.headerBuilder,
+    this.emptyCellBuilder,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
@@ -52,6 +53,7 @@ class _MonthView extends StatefulWidget {
   final HeaderDayBuilder headerDayBuilder;
   final DateCellBuilder dateCellBuilder;
   final HeaderBuilder headerBuilder;
+  final EmptyCellBuilder emptyCellBuilder;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -165,6 +167,7 @@ class _MonthViewState extends State<_MonthView>
       headerDayType: widget.headerDayType,
       headerDayBuilder: widget.headerDayBuilder,
       dateCellBuilder: widget.dateCellBuilder,
+      emptyCellBuilder: widget.emptyCellBuilder,
     );
   }
 
@@ -214,7 +217,7 @@ class _MonthViewState extends State<_MonthView>
   @override
   Widget build(BuildContext context) {
     double _kMaxDayPickerHeight =
-        widget.calendarStyle.cellHeight * (_kMaxDayPickerRowCount + 2);
+        widget.calendarStyle.cellHeight * (_kMaxDayPickerRowCount);
     return SizedBox(
       height: _kMaxDayPickerHeight,
       child: Column(
@@ -273,7 +276,7 @@ class _MonthViewState extends State<_MonthView>
                 /* PositionedDirectional(
                   top: 0.0,
                   end: 8.0,
-                  child: 
+                  child:
                 ), */
               ],
             ),

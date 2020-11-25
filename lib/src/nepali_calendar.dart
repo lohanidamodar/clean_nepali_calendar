@@ -33,6 +33,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.headerDayBuilder,
     this.dateCellBuilder,
     this.headerBuilder,
+    this.emptyCellBuilder,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -50,6 +51,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderDayBuilder headerDayBuilder;
   final DateCellBuilder dateCellBuilder;
   final HeaderBuilder headerBuilder;
+  final EmptyCellBuilder emptyCellBuilder;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -59,8 +61,6 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   @override
   void initState() {
     super.initState();
-
-
 
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
     widget.controller._init(
@@ -73,7 +73,6 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   MaterialLocalizations localizations;
   TextDirection textDirection;
-
 
   @override
   void didChangeDependencies() {
@@ -148,7 +147,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       headerDayBuilder: widget.headerDayBuilder,
       dateCellBuilder: widget.dateCellBuilder,
       headerBuilder: widget.headerBuilder,
-
+      emptyCellBuilder: widget.emptyCellBuilder,
     );
   }
 
