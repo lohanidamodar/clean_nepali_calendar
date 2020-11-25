@@ -2,10 +2,11 @@ part of clean_nepali_calendar;
 
 typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
 
-const double _kDayPickerRowHeight = 40.0;
-
 class _DayPickerGridDelegate extends SliverGridDelegate {
-  const _DayPickerGridDelegate();
+  final double _kDayPickerRowHeight;
+
+  _DayPickerGridDelegate(kDayPickerRowHeight)
+      : _kDayPickerRowHeight = kDayPickerRowHeight ?? 40.0;
 
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
@@ -13,6 +14,7 @@ class _DayPickerGridDelegate extends SliverGridDelegate {
     final tileWidth = constraints.crossAxisExtent / columnCount;
     final tileHeight = math.min(_kDayPickerRowHeight,
         constraints.viewportMainAxisExtent / (_kMaxDayPickerRowCount + 1));
+
     return SliverGridRegularTileLayout(
       crossAxisCount: columnCount,
       mainAxisStride: tileHeight,
@@ -26,8 +28,6 @@ class _DayPickerGridDelegate extends SliverGridDelegate {
   @override
   bool shouldRelayout(_DayPickerGridDelegate oldDelegate) => false;
 }
-
-const _DayPickerGridDelegate _kDayPickerGridDelegate = _DayPickerGridDelegate();
 
 class _DaysView extends StatelessWidget {
   _DaysView({
@@ -206,7 +206,7 @@ class _DaysView extends StatelessWidget {
         Flexible(
           child: GridView.custom(
             physics: NeverScrollableScrollPhysics(),
-            gridDelegate: _kDayPickerGridDelegate,
+            gridDelegate: _DayPickerGridDelegate(calendarStyle.cellHeight),
             childrenDelegate:
                 SliverChildListDelegate(labels, addRepaintBoundaries: false),
           ),

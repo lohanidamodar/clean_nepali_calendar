@@ -213,6 +213,8 @@ class _MonthViewState extends State<_MonthView>
 
   @override
   Widget build(BuildContext context) {
+    double _kMaxDayPickerHeight =
+        widget.calendarStyle.cellHeight * (_kMaxDayPickerRowCount + 2);
     return SizedBox(
       height: _kMaxDayPickerHeight,
       child: Column(
@@ -234,6 +236,7 @@ class _MonthViewState extends State<_MonthView>
               widget.onChanged(NepaliDateTime.now());
             },
             headerBuilder: widget.headerBuilder,
+            headerHeight: widget.calendarStyle.headerHeight,
           ),
           Expanded(
             child: Stack(

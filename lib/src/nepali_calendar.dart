@@ -13,8 +13,7 @@ String formattedMonth(
 
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
-const double _kMaxDayPickerHeight =
-    _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
+//
 
 class CleanNepaliCalendar extends StatefulWidget {
   const CleanNepaliCalendar({
@@ -60,6 +59,9 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   @override
   void initState() {
     super.initState();
+
+
+
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
     widget.controller._init(
       selectedDayCallback: _handleDayChanged,
@@ -71,6 +73,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   MaterialLocalizations localizations;
   TextDirection textDirection;
+
 
   @override
   void didChangeDependencies() {
@@ -145,6 +148,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       headerDayBuilder: widget.headerDayBuilder,
       dateCellBuilder: widget.dateCellBuilder,
       headerBuilder: widget.headerBuilder,
+
     );
   }
 
