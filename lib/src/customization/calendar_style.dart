@@ -54,7 +54,7 @@ final double headerHeight;
     this.highlightSelected = true,
     this.highlightToday = true,
     this.weekEndTextColor = Colors.red,
-    this.cellHeight=40,
+     this.cellHeight=60,
     this.headerHeight = 40,
   });
 }
