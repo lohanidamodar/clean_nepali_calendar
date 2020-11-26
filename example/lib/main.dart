@@ -36,6 +36,9 @@ class HomePage extends StatelessWidget {
             Container(
               color: Colors.red,
               child: CleanNepaliCalendar(
+                onChangedMonth: (currentMonthDate){
+                  print(currentMonthDate);
+                },
                 headerDayBuilder: (_, index) {
                   return Container(
                     decoration:

@@ -12,6 +12,7 @@ class _MonthView extends StatefulWidget {
     @required this.language,
     @required this.calendarStyle,
     @required this.headerStyle,
+    this.onChangedMonth,
     this.selectableDayPredicate,
     this.onHeaderLongPressed,
     this.onHeaderTapped,
@@ -30,6 +31,7 @@ class _MonthView extends StatefulWidget {
   final NepaliDateTime selectedDate;
 
   final ValueChanged<NepaliDateTime> onChanged;
+  final ValueChanged<NepaliDateTime> onChangedMonth;
 
   final NepaliDateTime firstDate;
 
@@ -71,7 +73,7 @@ class _MonthViewState extends State<_MonthView>
     // Initially display the pre-selected date.
     final monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
     _dayPickerController = PageController(initialPage: monthPage);
-    _handleMonthPageChanged(monthPage);
+    _handleMonthPageChanged(monthPage, widget.onChangedMonth);
     _updateCurrentDate();
 
     // Setup the fade animation for chevrons
@@ -92,7 +94,7 @@ class _MonthViewState extends State<_MonthView>
     if (widget.selectedDate != oldWidget.selectedDate) {
       final monthPage = _monthDelta(widget.firstDate, widget.selectedDate);
       _dayPickerController = PageController(initialPage: monthPage);
-      _handleMonthPageChanged(monthPage);
+      _handleMonthPageChanged(monthPage, widget.onChangedMonth);
     }
   }
 
@@ -204,13 +206,16 @@ class _MonthViewState extends State<_MonthView>
   NepaliDateTime _previousMonthDate;
   NepaliDateTime _nextMonthDate;
 
-  void _handleMonthPageChanged(int monthPage) {
+  void _handleMonthPageChanged(
+      int monthPage, ValueChanged<NepaliDateTime> onSelectedMonthChange) {
     setState(() {
       _previousMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
       _currentDisplayedMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
+      if (onSelectedMonthChange != null)
+        onSelectedMonthChange(_currentDisplayedMonthDate);
     });
   }
 
@@ -264,7 +269,10 @@ class _MonthViewState extends State<_MonthView>
                         itemCount:
                             _monthDelta(widget.firstDate, widget.lastDate) + 1,
                         itemBuilder: _buildItems,
-                        onPageChanged: _handleMonthPageChanged,
+                        onPageChanged: (int pageNumber) {
+                          _handleMonthPageChanged(
+                              pageNumber, widget.onChangedMonth);
+                        },
                       ),
                     ),
                   ),

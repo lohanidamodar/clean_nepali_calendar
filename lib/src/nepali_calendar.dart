@@ -34,6 +34,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.dateCellBuilder,
     this.headerBuilder,
     this.emptyCellBuilder,
+    this.onChangedMonth,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -52,6 +53,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final DateCellBuilder dateCellBuilder;
   final HeaderBuilder headerBuilder;
   final EmptyCellBuilder emptyCellBuilder;
+  final ValueChanged<NepaliDateTime> onChangedMonth;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -148,6 +150,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       dateCellBuilder: widget.dateCellBuilder,
       headerBuilder: widget.headerBuilder,
       emptyCellBuilder: widget.emptyCellBuilder,
+      onChangedMonth: widget.onChangedMonth,
     );
   }
 
