@@ -17,3 +17,4 @@ part './src/customization/calendar_style.dart';
 part './src/customization/header_style.dart';
 part './src/header.dart';
 part './src/controller.dart';
+part './src/enums.dart';

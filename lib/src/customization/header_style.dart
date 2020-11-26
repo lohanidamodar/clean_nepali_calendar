@@ -38,6 +38,8 @@ class HeaderStyle {
   /// Header decoration, used to draw border or shadow or change color of the header
   /// Defaults to empty BoxDecoration.
   final BoxDecoration decoration;
+  /// enable or disable fadeTransition animation on header when changing the month
+  final bool enableFadeTransition;
 
   const HeaderStyle({
     this.centerHeaderTitle = true,
@@ -49,5 +51,6 @@ class HeaderStyle {
     this.rightChevronIcon =
         const Icon(Icons.chevron_right, color: Colors.black),
     this.decoration = const BoxDecoration(),
+    this.enableFadeTransition = true,
   });
 }

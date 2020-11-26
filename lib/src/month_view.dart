@@ -16,6 +16,10 @@ class _MonthView extends StatefulWidget {
     this.onHeaderLongPressed,
     this.onHeaderTapped,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.headerDayType = HeaderDayType.initial,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
+    this.headerBuilder,
   })  : assert(selectedDate != null),
         assert(onChanged != null),
         assert(!firstDate.isAfter(lastDate)),
@@ -42,6 +46,13 @@ class _MonthView extends StatefulWidget {
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
 
+  final HeaderDayType headerDayType;
+
+  // build custom header
+  final HeaderDayBuilder headerDayBuilder;
+  final DateCellBuilder dateCellBuilder;
+  final HeaderBuilder headerBuilder;
+
   @override
   _MonthViewState createState() => _MonthViewState();
 }
@@ -66,8 +77,11 @@ class _MonthViewState extends State<_MonthView>
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-    _chevronOpacityAnimation =
-        _chevronOpacityController.drive(_chevronOpacityTween);
+
+    _chevronOpacityAnimation = widget.headerStyle.enableFadeTransition
+        ? _chevronOpacityController.drive(_chevronOpacityTween)
+        : _chevronOpacityController.drive(Tween<double>(begin: 1.0, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeInOut)));
   }
 
   @override
@@ -148,6 +162,9 @@ class _MonthViewState extends State<_MonthView>
       language: widget.language,
       selectableDayPredicate: widget.selectableDayPredicate,
       dragStartBehavior: widget.dragStartBehavior,
+      headerDayType: widget.headerDayType,
+      headerDayBuilder: widget.headerDayBuilder,
+      dateCellBuilder: widget.dateCellBuilder,
     );
   }
 
@@ -213,6 +230,10 @@ class _MonthViewState extends State<_MonthView>
             date: _currentDisplayedMonthDate,
             isDisplayingLastMonth: _isDisplayingLastMonth,
             nextMonthDate: _nextMonthDate,
+            changeToToday: () {
+              widget.onChanged(NepaliDateTime.now());
+            },
+            headerBuilder: widget.headerBuilder,
           ),
           Expanded(
             child: Stack(

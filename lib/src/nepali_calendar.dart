@@ -30,6 +30,10 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.onHeaderTapped,
     this.onHeaderLongPressed,
     @required this.controller,
+    this.headerDayType = HeaderDayType.initial,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
+    this.headerBuilder,
   }) : super(key: key);
 
   final NepaliDateTime initialDate;
@@ -43,6 +47,10 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderGestureCallback onHeaderTapped;
   final HeaderGestureCallback onHeaderLongPressed;
   final NepaliCalendarController controller;
+  final HeaderDayType headerDayType;
+  final HeaderDayBuilder headerDayBuilder;
+  final DateCellBuilder dateCellBuilder;
+  final HeaderBuilder headerBuilder;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -91,11 +99,21 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   void _vibrate() {
     switch (Theme.of(context).platform) {
+      // ignore: missing_enum_constant_in_switch
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         HapticFeedback.vibrate();
         break;
       case TargetPlatform.iOS:
+        break;
+      case TargetPlatform.linux:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.macOS:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.windows:
+        // TODO: Handle this case.
         break;
     }
   }
@@ -111,21 +129,22 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   Widget _buildPicker() {
-    return Padding(
-      padding: widget.calendarStyle.contentPadding,
-      child: _MonthView(
-        key: _pickerKey,
-        headerStyle: widget.headerStyle,
-        calendarStyle: widget.calendarStyle,
-        language: widget.language,
-        selectedDate: _selectedDate,
-        onChanged: _handleDayChanged,
-        firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
-        lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
-        selectableDayPredicate: widget.selectableDayPredicate,
-        onHeaderTapped: widget.onHeaderTapped,
-        onHeaderLongPressed: widget.onHeaderLongPressed,
-      ),
+    return _MonthView(
+      key: _pickerKey,
+      headerStyle: widget.headerStyle,
+      calendarStyle: widget.calendarStyle,
+      language: widget.language,
+      selectedDate: _selectedDate,
+      onChanged: _handleDayChanged,
+      firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
+      lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
+      selectableDayPredicate: widget.selectableDayPredicate,
+      onHeaderTapped: widget.onHeaderTapped,
+      onHeaderLongPressed: widget.onHeaderLongPressed,
+      headerDayType: widget.headerDayType,
+      headerDayBuilder: widget.headerDayBuilder,
+      dateCellBuilder: widget.dateCellBuilder,
+      headerBuilder: widget.headerBuilder,
     );
   }
 

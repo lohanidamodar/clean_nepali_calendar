@@ -1,6 +1,8 @@
 part of clean_nepali_calendar;
 
-const double _kDayPickerRowHeight = 42.0;
+typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
+
+const double _kDayPickerRowHeight = 40.0;
 
 class _DayPickerGridDelegate extends SliverGridDelegate {
   const _DayPickerGridDelegate();
@@ -41,6 +43,9 @@ class _DaysView extends StatelessWidget {
     @required this.headerStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.headerDayType = HeaderDayType.initial,
+    this.headerDayBuilder,
+    this.dateCellBuilder,
   })  : assert(selectedDate != null),
         assert(currentDate != null),
         assert(onChanged != null),
@@ -69,16 +74,55 @@ class _DaysView extends StatelessWidget {
   final Language language;
   final CalendarStyle calendarStyle;
   final HeaderStyle headerStyle;
+  final HeaderDayType headerDayType;
+  final HeaderDayBuilder headerDayBuilder;
+  final DateCellBuilder dateCellBuilder;
 
-  List<Widget> _getDayHeaders(Language language, TextStyle headerStyle) {
-    return (language == Language.english
-            ? ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-            : ['आ', 'सो', 'मं', 'बु', 'वि', 'शु', 'श'])
+  List<Widget> _getDayHeaders(Language language, TextStyle headerStyle,
+      HeaderDayType headerDayType, HeaderDayBuilder builder) {
+    List<String> headers;
+    switch (headerDayType) {
+      case HeaderDayType.fullName:
+        {
+          headers = (language == Language.english)
+              ? dayHeaderFullNameEnglish
+              : dayHeaderFullNameNepali;
+          break;
+        }
+      case HeaderDayType.halfName:
+        {
+          headers = (language == Language.english)
+              ? dayHeaderHalfNameEnglish
+              : dayHeaderHalfNameNepali;
+
+          break;
+        }
+      case HeaderDayType.initial:
+        {
+          headers = (language == Language.english)
+              ? dayHeaderLetterEnglish
+              : dayHeaderLetterNepali;
+
+          break;
+        }
+    }
+    return headers
+        .asMap()
+        .entries
         .map(
           (label) => ExcludeSemantics(
-            child: Center(
-              child: Text(label, style: headerStyle),
-            ),
+            child: builder != null
+                ? builder(label.value, label.key)
+                : Center(
+                    child: Text(
+                      label.value,
+                      style: headerStyle.copyWith(
+                        color: label.key == 6
+                            ? calendarStyle.weekEndTextColor
+                            : headerStyle.color,
+                      ),
+                    ),
+                  ),
           ),
         )
         .toList();
@@ -94,9 +138,14 @@ class _DaysView extends StatelessWidget {
     final labels = <Widget>[];
     if (calendarStyle.renderDaysOfWeek)
       labels.addAll(
-        _getDayHeaders(language, themeData.textTheme.caption),
+        _getDayHeaders(language, themeData.textTheme.caption, headerDayType,
+            headerDayBuilder),
       );
+
+    //this weekNumber is to determine the weekend, saturday.
+    int weekNumber = 0;
     for (var i = 0; true; i += 1) {
+      if (weekNumber > 6) weekNumber = 0;
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
       final day = i - firstDayOffset + 1;
@@ -128,9 +177,12 @@ class _DaysView extends StatelessWidget {
           isToday: isCurrentDay,
           isSelected: isSelectedDay,
           calendarStyle: calendarStyle,
+          day: dayToBuild,
+          isWeekend: weekNumber == 6,
           onTap: () {
             onChanged(dayToBuild);
           },
+          builder: dateCellBuilder,
         );
 
         if (!disabled) {
@@ -145,21 +197,78 @@ class _DaysView extends StatelessWidget {
         }
         labels.add(dayWidget);
       }
+
+      weekNumber += 1;
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: <Widget>[
-          Flexible(
-            child: GridView.custom(
-              gridDelegate: _kDayPickerGridDelegate,
-              childrenDelegate:
-                  SliverChildListDelegate(labels, addRepaintBoundaries: false),
-            ),
+    return Column(
+      children: <Widget>[
+        Flexible(
+          child: GridView.custom(
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: _kDayPickerGridDelegate,
+            childrenDelegate:
+                SliverChildListDelegate(labels, addRepaintBoundaries: false),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
+
+final List<String> dayHeaderFullNameEnglish = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+final List<String> dayHeaderFullNameNepali = [
+  "आइतबार",
+  "सोमबार",
+  "मन्गलबार",
+  "बुधबार",
+  "बिहीबार",
+  "शुक्रबार",
+  "शनीबार"
+];
+final List<String> dayHeaderHalfNameEnglish = [
+  "Sun",
+  "Mon",
+  "Tues",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat"
+];
+final List<String> dayHeaderHalfNameNepali = [
+  "आइत",
+  "सोम",
+  "मन्गल",
+  "बुध",
+  "बिही",
+  "शुक्र",
+  "शनी"
+];
+
+final List<String> dayHeaderLetterEnglish = [
+  'S',
+  'M',
+  'T',
+  'W',
+  'T',
+  'F',
+  'S',
+];
+
+final List<String> dayHeaderLetterNepali = [
+  'आ',
+  'सो',
+  'मं',
+  'बु',
+  'वि',
+  'शु',
+  'श',
+];
