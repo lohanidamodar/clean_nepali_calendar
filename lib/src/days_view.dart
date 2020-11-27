@@ -211,7 +211,7 @@ class _DaysView extends StatelessWidget {
     return GridView.custom(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
-      // physics: ClampingScrollPhysics(),
+      physics: ClampingScrollPhysics(),
       gridDelegate: _DayPickerGridDelegate(calendarStyle.cellHeight),
       childrenDelegate:
           SliverChildListDelegate(labels, addRepaintBoundaries: false),
