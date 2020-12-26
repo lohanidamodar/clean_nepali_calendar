@@ -231,11 +231,11 @@ final List<String> dayHeaderFullNameEnglish = [
 final List<String> dayHeaderFullNameNepali = [
   "आइतबार",
   "सोमबार",
-  "मंगलवार",
+  "मंगलबार",
   "बुधबार",
-  "बिहिवार",
+  "बिहिबार",
   "शुक्रबार",
-  "शनिवार"
+  "शनिबार"
 ];
 final List<String> dayHeaderHalfNameEnglish = [
   "Sun",
