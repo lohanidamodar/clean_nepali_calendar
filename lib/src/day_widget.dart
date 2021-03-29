@@ -8,20 +8,20 @@ typedef Widget DateCellBuilder(
   String label,
   String text,
   CalendarStyle calendarStyle,
-  bool isWeekend,
+  bool? isWeekend,
 );
 
 class _DayWidget extends StatelessWidget {
   const _DayWidget({
-    Key key,
-    @required this.isSelected,
-    @required this.isDisabled,
-    @required this.isToday,
-    @required this.label,
-    @required this.text,
-    @required this.onTap,
-    @required this.calendarStyle,
-    @required this.day,
+    Key? key,
+    required this.isSelected,
+    required this.isDisabled,
+    required this.isToday,
+    required this.label,
+    required this.text,
+    required this.onTap,
+    required this.calendarStyle,
+    required this.day,
     this.builder,
     this.isWeekend,
   }) : super(key: key);
@@ -34,8 +34,8 @@ class _DayWidget extends StatelessWidget {
   final Function() onTap;
   final CalendarStyle calendarStyle;
   final NepaliDateTime day;
-  final DateCellBuilder builder;
-  final bool isWeekend;
+  final DateCellBuilder? builder;
+  final bool? isWeekend;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _DayWidget extends StatelessWidget {
     }
 
     return (builder != null)
-        ? builder(isToday, isSelected, isDisabled, day, label, text,
+        ? builder!(isToday, isSelected, isDisabled, day, label, text,
             calendarStyle, isWeekend)
         : AnimatedContainer(
             duration: Duration(milliseconds: 2000),
@@ -82,7 +82,7 @@ class _DayWidget extends StatelessWidget {
                 child: ExcludeSemantics(
                   child: Text(text,
                       style: _buildCellTextStyle().copyWith(
-                          color: isWeekend
+                          color: isWeekend!
                               ? calendarStyle.weekEndTextColor
                               : null)),
                 ),

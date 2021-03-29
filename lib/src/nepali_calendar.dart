@@ -1,14 +1,14 @@
 part of clean_nepali_calendar;
 
-typedef String TextBuilder(NepaliDateTime date, Language language);
-typedef void HeaderGestureCallback(NepaliDateTime focusedDay);
+typedef String TextBuilder(NepaliDateTime? date, Language language);
+typedef void HeaderGestureCallback(NepaliDateTime? focusedDay);
 
 String formattedMonth(
   int month, [
-  Language language,
+  Language? language,
 ]) =>
     NepaliDateFormat.MMMM(language).format(
-      NepaliDateTime(0, month),
+      NepaliDateTime(1970, month),
     );
 
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
@@ -17,7 +17,7 @@ const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 
 class CleanNepaliCalendar extends StatefulWidget {
   const CleanNepaliCalendar({
-    Key key,
+    Key? key,
     this.initialDate,
     this.firstDate,
     this.lastDate,
@@ -28,7 +28,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.calendarStyle = const CalendarStyle(),
     this.onHeaderTapped,
     this.onHeaderLongPressed,
-    @required this.controller,
+    required this.controller,
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
@@ -37,23 +37,23 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.onChangedMonth,
   }) : super(key: key);
 
-  final NepaliDateTime initialDate;
-  final NepaliDateTime firstDate;
-  final NepaliDateTime lastDate;
-  final Function(NepaliDateTime) onDaySelected;
-  final SelectableDayPredicate selectableDayPredicate;
+  final NepaliDateTime? initialDate;
+  final NepaliDateTime? firstDate;
+  final NepaliDateTime? lastDate;
+  final Function(NepaliDateTime)? onDaySelected;
+  final SelectableDayPredicate? selectableDayPredicate;
   final Language language;
   final CalendarStyle calendarStyle;
   final HeaderStyle headerStyle;
-  final HeaderGestureCallback onHeaderTapped;
-  final HeaderGestureCallback onHeaderLongPressed;
+  final HeaderGestureCallback? onHeaderTapped;
+  final HeaderGestureCallback? onHeaderLongPressed;
   final NepaliCalendarController controller;
   final HeaderDayType headerDayType;
-  final HeaderDayBuilder headerDayBuilder;
-  final DateCellBuilder dateCellBuilder;
-  final HeaderBuilder headerBuilder;
-  final EmptyCellBuilder emptyCellBuilder;
-  final ValueChanged<NepaliDateTime> onChangedMonth;
+  final HeaderDayBuilder? headerDayBuilder;
+  final DateCellBuilder? dateCellBuilder;
+  final HeaderBuilder? headerBuilder;
+  final EmptyCellBuilder? emptyCellBuilder;
+  final ValueChanged<NepaliDateTime>? onChangedMonth;
 
   @override
   _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
@@ -73,8 +73,8 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   bool _announcedInitialDate = false;
 
-  MaterialLocalizations localizations;
-  TextDirection textDirection;
+  MaterialLocalizations? localizations;
+  late TextDirection textDirection;
 
   @override
   void didChangeDependencies() {
@@ -98,7 +98,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
         .setSelectedDay(widget.initialDate ?? NepaliDateTime.now());
   }
 
-  NepaliDateTime _selectedDate;
+  late NepaliDateTime _selectedDate;
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
@@ -122,14 +122,14 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
     }
   }
 
-  void _handleDayChanged(NepaliDateTime value, {bool runCallback = true}) {
+  void _handleDayChanged(NepaliDateTime value, {bool? runCallback = true}) {
     _vibrate();
     setState(() {
       widget.controller.setSelectedDay(value, isProgrammatic: false);
       _selectedDate = value;
     });
-    if (runCallback && widget.onDaySelected != null)
-      widget.onDaySelected(value);
+    if (runCallback! && widget.onDaySelected != null)
+      widget.onDaySelected!(value);
   }
 
   Widget _buildPicker() {

@@ -4,14 +4,14 @@ const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
 
 class _MonthView extends StatefulWidget {
   _MonthView({
-    Key key,
-    @required this.selectedDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.language,
-    @required this.calendarStyle,
-    @required this.headerStyle,
+    Key? key,
+    required this.selectedDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
+    required this.language,
+    required this.calendarStyle,
+    required this.headerStyle,
     this.onChangedMonth,
     this.selectableDayPredicate,
     this.onHeaderLongPressed,
@@ -22,22 +22,20 @@ class _MonthView extends StatefulWidget {
     this.dateCellBuilder,
     this.headerBuilder,
     this.emptyCellBuilder,
-  })  : assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate)),
         super(key: key);
 
   final NepaliDateTime selectedDate;
 
   final ValueChanged<NepaliDateTime> onChanged;
-  final ValueChanged<NepaliDateTime> onChangedMonth;
+  final ValueChanged<NepaliDateTime>? onChangedMonth;
 
   final NepaliDateTime firstDate;
 
   final NepaliDateTime lastDate;
 
-  final SelectableDayPredicate selectableDayPredicate;
+  final SelectableDayPredicate? selectableDayPredicate;
 
   final DragStartBehavior dragStartBehavior;
 
@@ -46,16 +44,16 @@ class _MonthView extends StatefulWidget {
   final CalendarStyle calendarStyle;
 
   final HeaderStyle headerStyle;
-  final HeaderGestureCallback onHeaderTapped;
-  final HeaderGestureCallback onHeaderLongPressed;
+  final HeaderGestureCallback? onHeaderTapped;
+  final HeaderGestureCallback? onHeaderLongPressed;
 
   final HeaderDayType headerDayType;
 
   // build custom header
-  final HeaderDayBuilder headerDayBuilder;
-  final DateCellBuilder dateCellBuilder;
-  final HeaderBuilder headerBuilder;
-  final EmptyCellBuilder emptyCellBuilder;
+  final HeaderDayBuilder? headerDayBuilder;
+  final DateCellBuilder? dateCellBuilder;
+  final HeaderBuilder? headerBuilder;
+  final EmptyCellBuilder? emptyCellBuilder;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -98,7 +96,7 @@ class _MonthViewState extends State<_MonthView>
     }
   }
 
-  TextDirection textDirection;
+  late TextDirection textDirection;
 
   @override
   void didChangeDependencies() {
@@ -106,12 +104,12 @@ class _MonthViewState extends State<_MonthView>
     textDirection = Directionality.of(context);
   }
 
-  NepaliDateTime _todayDate;
-  NepaliDateTime _currentDisplayedMonthDate;
-  Timer _timer;
-  PageController _dayPickerController;
-  AnimationController _chevronOpacityController;
-  Animation<double> _chevronOpacityAnimation;
+  late NepaliDateTime _todayDate;
+  NepaliDateTime? _currentDisplayedMonthDate;
+  Timer? _timer;
+  PageController? _dayPickerController;
+  late AnimationController _chevronOpacityController;
+  Animation<double>? _chevronOpacityAnimation;
 
   void _updateCurrentDate() {
     _todayDate = NepaliDateTime.now();
@@ -176,38 +174,38 @@ class _MonthViewState extends State<_MonthView>
   void _handleNextMonth() {
     if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
-          "${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}",
+          "${formattedMonth(_nextMonthDate!.month, Language.english)} ${_nextMonthDate!.year}",
           textDirection);
-      _dayPickerController.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .nextPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
   void _handlePreviousMonth() {
     if (!_isDisplayingFirstMonth) {
       SemanticsService.announce(
-          "${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}",
+          "${formattedMonth(_previousMonthDate!.month, Language.english)} ${_previousMonthDate!.year}",
           textDirection);
-      _dayPickerController.previousPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .previousPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
   bool get _isDisplayingFirstMonth {
-    return !_currentDisplayedMonthDate
+    return !_currentDisplayedMonthDate!
         .isAfter(NepaliDateTime(widget.firstDate.year, widget.firstDate.month));
   }
 
   bool get _isDisplayingLastMonth {
-    return !_currentDisplayedMonthDate
+    return !_currentDisplayedMonthDate!
         .isBefore(NepaliDateTime(widget.lastDate.year, widget.lastDate.month));
   }
 
-  NepaliDateTime _previousMonthDate;
-  NepaliDateTime _nextMonthDate;
+  NepaliDateTime? _previousMonthDate;
+  NepaliDateTime? _nextMonthDate;
 
   void _handleMonthPageChanged(
-      int monthPage, ValueChanged<NepaliDateTime> onSelectedMonthChange) {
+      int monthPage, ValueChanged<NepaliDateTime>? onSelectedMonthChange) {
     setState(() {
       _previousMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
@@ -215,7 +213,7 @@ class _MonthViewState extends State<_MonthView>
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
       if (onSelectedMonthChange != null)
-        onSelectedMonthChange(_currentDisplayedMonthDate);
+        onSelectedMonthChange(_currentDisplayedMonthDate!);
     });
   }
 
