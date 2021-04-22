@@ -193,6 +193,8 @@ String getFormattedEnglishMonth(int mnth) {
       return "Mar";
     case DateTime.april:
       return "April";
+    case DateTime.may:
+      return "May";
     case DateTime.june:
       return "Jun";
     case DateTime.july:
