@@ -1,3 +1,6 @@
+## 1.2.0
+* Updated to provide more customization options for headers and day check out the [example](https://github.com/lohanidamodar/clean_nepali_calendar/tree/master/example) for more information
+
 ## 1.1.2
 * Updated to fix error with updated nepali_utils package
 
