@@ -37,8 +37,7 @@ class CalendarStyle {
 
   /// show different colors for weekend, currently only saturday
   final Color weekEndTextColor;
-final double cellHeight;
-final double headerHeight;
+  final double cellHeight;
   const CalendarStyle({
     this.dayStyle = const TextStyle(),
     this.selectedStyle = const TextStyle(
@@ -54,7 +53,6 @@ final double headerHeight;
     this.highlightSelected = true,
     this.highlightToday = true,
     this.weekEndTextColor = Colors.red,
-     this.cellHeight=60,
-    this.headerHeight = 40,
+    this.cellHeight = 60,
   });
 }

@@ -242,7 +242,6 @@ class _MonthViewState extends State<_MonthView>
               widget.onChanged(NepaliDateTime.now());
             },
             headerBuilder: widget.headerBuilder,
-            headerHeight: widget.calendarStyle.headerHeight,
           ),
           Expanded(
             child: Stack(

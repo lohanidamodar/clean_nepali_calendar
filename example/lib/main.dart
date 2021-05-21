@@ -39,28 +39,6 @@ class HomePage extends StatelessWidget {
                   onChangedMonth: (currentMonthDate) {
                     print(currentMonthDate);
                   },
-                  // headerDayBuilder: (_, index) {
-                  //   return Container(
-                  //     decoration:
-                  //         BoxDecoration(border: Border.all(color: Colors.black)),
-                  //     child: Align(
-                  //         alignment: Alignment.topCenter,
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.only(top: 5.0),
-                  //           child: Text(
-                  //             '$_',
-                  //             style: TextStyle(
-                  //                 color: (index == 6) ? Colors.red : null),
-                  //           ),
-                  //         )),
-                  //   );
-                  // },
-
-                  // headerBuilder: (_, __, ___, ____, ______) => Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Text("add custom header here"),
-                  // ),
-                  // emptyCellBuilder: () => Text('such a empty'),
                   headerDayType: HeaderDayType.halfName,
                   controller: _nepaliCalendarController,
                   onHeaderLongPressed: (date) {
@@ -71,15 +49,12 @@ class HomePage extends StatelessWidget {
                   },
                   calendarStyle: CalendarStyle(
                     cellHeight: 60,
-                    // headerHeight: 100,
-                    // weekEndTextColor : Colors.green,
                     selectedColor: Colors.deepOrange,
                     dayStyle: TextStyle(fontWeight: FontWeight.bold),
                     todayStyle: TextStyle(
                       fontSize: 20.0,
                     ),
                     todayColor: Colors.orange.shade400,
-                    // highlightSelected: true,
                     renderDaysOfWeek: true,
                     highlightToday: true,
                   ),
@@ -98,26 +73,7 @@ class HomePage extends StatelessWidget {
                   onDaySelected: (day) {
                     print(day.toString());
                   },
-
-                  // display the english date along with nepali date.
-                  dateCellBuilder: cellBuilder
-
-                  //     (isToday, isSelected, isDisabled, nepaliDate,
-                  //     label, text, calendarStyle, isWeekend) {
-                  //   return Container(
-                  //     decoration: BoxDecoration(
-                  //         border: Border.all(color: Colors.black),
-                  //         color: Colors.amberAccent),
-                  //     child: Text(
-                  //       text,
-                  //       style: TextStyle(
-                  //           color: isWeekend
-                  //               ? calendarStyle.weekEndTextColor
-                  //               : null),
-                  //     ),
-                  //   );
-                  // },
-                  ),
+                  dateCellBuilder: cellBuilder),
             ),
           ],
         ),
@@ -127,30 +83,25 @@ class HomePage extends StatelessWidget {
 
   Widget cellBuilder(isToday, isSelected, isDisabled, nepaliDate, label, text,
       calendarStyle, isWeekend) {
-    // print(isSelected);
     Decoration _buildCellDecoration() {
       if (isSelected && isToday) {
         return BoxDecoration(
-            // shape: BoxShape.circle,
             borderRadius: BorderRadius.circular(5),
             color: Colors.blue,
             border: Border.all(color: calendarStyle.selectedColor));
       }
       if (isSelected) {
         return BoxDecoration(
-            // shape: BoxShape.circle,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: calendarStyle.selectedColor));
       } else if (isToday && calendarStyle.highlightToday) {
         return BoxDecoration(
-          // shape: BoxShape.circle,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.transparent),
           color: Colors.blue,
         );
       } else {
         return BoxDecoration(
-          // shape: BoxShape.circle,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.transparent),
         );

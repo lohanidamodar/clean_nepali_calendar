@@ -2,7 +2,6 @@ part of clean_nepali_calendar;
 
 typedef Widget HeaderBuilder(
   BoxDecoration decoration,
-  double height,
   Function nextMonthHandler,
   Function prevMonthHandler,
   NepaliDateTime? nepaliDateTime,
@@ -25,8 +24,7 @@ class _CalendarHeader extends StatelessWidget {
     required this.onHeaderLongPressed,
     required changeToToday,
     HeaderBuilder? headerBuilder,
-    required headerHeight,
-  })   : _chevronOpacityAnimation = chevronOpacityAnimation,
+  })  : _chevronOpacityAnimation = chevronOpacityAnimation,
         _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
         date = date,
@@ -38,7 +36,6 @@ class _CalendarHeader extends StatelessWidget {
         _language = language,
         _changeToToday = changeToToday,
         _headerBuilder = headerBuilder,
-        _headerHeight = headerHeight,
         super(key: key);
 
   final Animation<double>? _chevronOpacityAnimation;
@@ -55,7 +52,6 @@ class _CalendarHeader extends StatelessWidget {
   final HeaderGestureCallback? onHeaderTapped;
   final HeaderGestureCallback? onHeaderLongPressed;
   final HeaderBuilder? _headerBuilder;
-  final double _headerHeight;
 
   _onHeaderTapped() {
     if (onHeaderTapped != null) {
@@ -75,11 +71,11 @@ class _CalendarHeader extends StatelessWidget {
       onTap: _onHeaderTapped,
       onLongPress: _onHeaderLongPressed,
       child: (_headerBuilder != null)
-          ? _headerBuilder!(_headerStyle.decoration, _headerHeight,
-              _handleNextMonth, _handlePreviousMonth, date)
+          ? _headerBuilder!(_headerStyle.decoration, _handleNextMonth,
+              _handlePreviousMonth, date)
           : Container(
               decoration: _headerStyle.decoration,
-              height: _headerHeight,
+              height: _headerStyle.headerHeight,
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -136,7 +132,6 @@ class _CalendarHeader extends StatelessWidget {
   }
 
   Widget _buildTitle() {
-    print("check $date");
     return FadeTransition(
       opacity: _chevronOpacityAnimation!,
       child: ExcludeSemantics(
