@@ -7,6 +7,7 @@ class _MonthView extends StatefulWidget {
     Key key,
     @required this.selectedDate,
     @required this.onChanged,
+    @required this.onSwipped,
     @required this.firstDate,
     @required this.lastDate,
     @required this.language,
@@ -29,6 +30,8 @@ class _MonthView extends StatefulWidget {
   final NepaliDateTime selectedDate;
 
   final ValueChanged<NepaliDateTime> onChanged;
+
+  final ValueChanged<NepaliDateTime> onSwipped;
 
   final NepaliDateTime firstDate;
 
@@ -208,6 +211,7 @@ class _MonthViewState extends State<_MonthView>
       _currentDisplayedMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
+      widget.onSwipped(_currentDisplayedMonthDate);
     });
   }
 
@@ -232,6 +236,7 @@ class _MonthViewState extends State<_MonthView>
             nextMonthDate: _nextMonthDate,
             changeToToday: () {
               widget.onChanged(NepaliDateTime.now());
+              // widget.onSwipped(NepaliDateTime.now());
             },
             headerBuilder: widget.headerBuilder,
           ),

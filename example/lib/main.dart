@@ -85,6 +85,10 @@ class HomePage extends StatelessWidget {
                 print(day.toString());
               },
 
+              onMonthChanged: (value) {
+                // on month changed method will return the [NepaliDateTime] value for current month's first day
+                print(value.month.toString());
+              },
               // display the english date along with nepali date.
               dateCellBuilder: cellBuilder,
             ),
@@ -135,7 +139,7 @@ class HomePage extends StatelessWidget {
           children: [
             Text(text,
                 style: TextStyle(
-                    fontSize: 20, color: isWeekend ? Colors.red : null)),
+                    fontSize: 15, color: isWeekend ? Colors.red : null)),
 
             // to show events
             Align(

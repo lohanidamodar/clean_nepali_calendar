@@ -25,6 +25,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.selectableDayPredicate,
     this.language = Language.nepali,
     this.onDaySelected,
+    this.onMonthChanged,
     this.headerStyle = const HeaderStyle(),
     this.calendarStyle = const CalendarStyle(),
     this.onHeaderTapped,
@@ -40,6 +41,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final NepaliDateTime firstDate;
   final NepaliDateTime lastDate;
   final Function(NepaliDateTime) onDaySelected;
+  final Function(NepaliDateTime) onMonthChanged;
   final SelectableDayPredicate selectableDayPredicate;
   final Language language;
   final CalendarStyle calendarStyle;
@@ -95,6 +97,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   NepaliDateTime _selectedDate;
+  NepaliDateTime _selectedMonth;
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
@@ -128,6 +131,12 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       widget.onDaySelected(value);
   }
 
+  void _handleMonthSwipped(NepaliDateTime value, {bool runCallback = true}) {
+    _vibrate();
+    if (runCallback && widget.onMonthChanged != null)
+      widget.onMonthChanged(value);
+  }
+
   Widget _buildPicker() {
     return _MonthView(
       key: _pickerKey,
@@ -136,6 +145,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       language: widget.language,
       selectedDate: _selectedDate,
       onChanged: _handleDayChanged,
+      onSwipped: _handleMonthSwipped,
       firstDate: widget.firstDate ?? NepaliDateTime(2000, 1),
       lastDate: widget.lastDate ?? NepaliDateTime(2095, 12),
       selectableDayPredicate: widget.selectableDayPredicate,
