@@ -41,7 +41,10 @@ class CleanNepaliCalendar extends StatefulWidget {
   final NepaliDateTime firstDate;
   final NepaliDateTime lastDate;
   final Function(NepaliDateTime) onDaySelected;
+
+  //onMonthChanged callback to detect the change of month
   final Function(NepaliDateTime) onMonthChanged;
+
   final SelectableDayPredicate selectableDayPredicate;
   final Language language;
   final CalendarStyle calendarStyle;
@@ -64,6 +67,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
     super.initState();
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
     widget.controller._init(
+      currentMonthCallback: _handleMonthSwipped,
       selectedDayCallback: _handleDayChanged,
       initialDay: widget.initialDate ?? NepaliDateTime.now(),
     );
@@ -131,8 +135,11 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       widget.onDaySelected(value);
   }
 
+  // to execute if month is swipped 
   void _handleMonthSwipped(NepaliDateTime value, {bool runCallback = true}) {
-    _vibrate();
+
+    widget.controller.setCurrentMonth(value, isProgrammatic: false);
+      _selectedMonth = value;
     if (runCallback && widget.onMonthChanged != null)
       widget.onMonthChanged(value);
   }

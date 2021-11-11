@@ -2,17 +2,26 @@ part of clean_nepali_calendar;
 
 typedef void _SelectedDayCallback(NepaliDateTime day, {bool runCallback});
 
+// call back for current month
+typedef void _CurrentMonthCallBack(NepaliDateTime month, {bool runCallback});
+
 class NepaliCalendarController {
   NepaliDateTime get selectedDay => _selectedDay;
+
+  // getter to return current month on screen
   NepaliDateTime get currentMonth => _currentMonth;
   NepaliDateTime _selectedDay;
+
+  // to hold the nepali date time for current month
   NepaliDateTime _currentMonth;
+
   _SelectedDayCallback _selectedDayCallback;
-  _SelectedDayCallback _currentMonthCallback;
+
+  _CurrentMonthCallBack _currentMonthCallback;
 
   void _init({
     @required _SelectedDayCallback selectedDayCallback,
-    @required _SelectedDayCallback currentMonthCallback,
+    @required _CurrentMonthCallBack currentMonthCallback,
     @required NepaliDateTime initialDay,
   }) {
     _selectedDayCallback = selectedDayCallback;
@@ -33,16 +42,16 @@ class NepaliCalendarController {
     }
   }
 
-  // void setCurrentMonth(
-  //   NepaliDateTime value, {
-  //   bool isProgrammatic = true,
-  //   bool animate = true,
-  //   bool runCallback = false,
-  // }) {
-  //   _currentMonth = value;
+  void setCurrentMonth(
+    NepaliDateTime value, {
+    bool isProgrammatic = true,
+    bool animate = true,
+    bool runCallback = false,
+  }) {
+    _currentMonth = value;
 
-  //   if (isProgrammatic && _currentMonthCallback != null) {
-  //     _currentMonthCallback(value, runCallback: runCallback);
-  //   }
-  // }
+    if (isProgrammatic && _currentMonthCallback != null) {
+      _currentMonthCallback(value, runCallback: runCallback);
+    }
+  }
 }

@@ -31,6 +31,7 @@ class _MonthView extends StatefulWidget {
 
   final ValueChanged<NepaliDateTime> onChanged;
 
+  // onSwipped call back to detect the swipe on month page builder and to call method if page (month) is changed
   final ValueChanged<NepaliDateTime> onSwipped;
 
   final NepaliDateTime firstDate;
@@ -211,6 +212,8 @@ class _MonthViewState extends State<_MonthView>
       _currentDisplayedMonthDate =
           _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
+
+      // when month page is changed, the onSwipped method is triggered with _currentDisplayedMonthDate data
       widget.onSwipped(_currentDisplayedMonthDate);
     });
   }
@@ -236,7 +239,6 @@ class _MonthViewState extends State<_MonthView>
             nextMonthDate: _nextMonthDate,
             changeToToday: () {
               widget.onChanged(NepaliDateTime.now());
-              // widget.onSwipped(NepaliDateTime.now());
             },
             headerBuilder: widget.headerBuilder,
           ),
