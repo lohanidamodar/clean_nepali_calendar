@@ -8,7 +8,7 @@ String formattedMonth(
   Language language,
 ]) =>
     NepaliDateFormat.MMMM(language).format(
-      NepaliDateTime(0, month),
+      NepaliDateTime(1970, month),
     );
 
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
@@ -98,24 +98,7 @@ class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
-    switch (Theme.of(context).platform) {
-      // ignore: missing_enum_constant_in_switch
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-        HapticFeedback.vibrate();
-        break;
-      case TargetPlatform.iOS:
-        break;
-      case TargetPlatform.linux:
-        // TODO: Handle this case.
-        break;
-      case TargetPlatform.macOS:
-        // TODO: Handle this case.
-        break;
-      case TargetPlatform.windows:
-        // TODO: Handle this case.
-        break;
-    }
+    HapticFeedback.vibrate();
   }
 
   void _handleDayChanged(NepaliDateTime value, {bool runCallback = true}) {
