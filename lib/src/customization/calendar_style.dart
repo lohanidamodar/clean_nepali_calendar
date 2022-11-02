@@ -41,10 +41,10 @@ class CalendarStyle {
   const CalendarStyle({
     this.dayStyle = const TextStyle(),
     this.selectedStyle = const TextStyle(
-        color: const Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
+        color: Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
     this.todayStyle = const TextStyle(
-        color: const Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
-    this.unavailableStyle = const TextStyle(color: const Color(0xFFBFBFBF)),
+        color: Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
+    this.unavailableStyle = const TextStyle(color: Color(0xFFBFBFBF)),
     this.selectedColor = const Color(0xFF5C6BC0), // Material indigo[400]
     this.todayColor = const Color(0xFF9FA8DA), // Material indigo[200]
     this.renderDaysOfWeek = true,

@@ -1,6 +1,6 @@
 part of clean_nepali_calendar;
 
-typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
+typedef HeaderDayBuilder = Widget Function(String headerName, int dayNumber);
 
 const double _kDayPickerRowHeight = 40.0;
 
@@ -31,27 +31,22 @@ const _DayPickerGridDelegate _kDayPickerGridDelegate = _DayPickerGridDelegate();
 
 class _DaysView extends StatelessWidget {
   _DaysView({
-    Key key,
-    @required this.selectedDate,
-    @required this.currentDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.displayedMonth,
-    @required this.language,
-    @required this.calendarStyle,
-    @required this.headerStyle,
+    Key? key,
+    required this.selectedDate,
+    required this.currentDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
+    required this.displayedMonth,
+    required this.language,
+    required this.calendarStyle,
+    required this.headerStyle,
     this.selectableDayPredicate,
     this.dragStartBehavior = DragStartBehavior.start,
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
-  })  : assert(selectedDate != null),
-        assert(currentDate != null),
-        assert(onChanged != null),
-        assert(displayedMonth != null),
-        assert(dragStartBehavior != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate)),
         super(key: key);
 
@@ -67,7 +62,7 @@ class _DaysView extends StatelessWidget {
 
   final NepaliDateTime displayedMonth;
 
-  final SelectableDayPredicate selectableDayPredicate;
+  final SelectableDayPredicate? selectableDayPredicate;
 
   final DragStartBehavior dragStartBehavior;
 
@@ -75,11 +70,11 @@ class _DaysView extends StatelessWidget {
   final CalendarStyle calendarStyle;
   final HeaderStyle headerStyle;
   final HeaderDayType headerDayType;
-  final HeaderDayBuilder headerDayBuilder;
-  final DateCellBuilder dateCellBuilder;
+  final HeaderDayBuilder? headerDayBuilder;
+  final DateCellBuilder? dateCellBuilder;
 
-  List<Widget> _getDayHeaders(Language language, TextStyle headerStyle,
-      HeaderDayType headerDayType, HeaderDayBuilder builder) {
+  List<Widget> _getDayHeaders(Language language, TextStyle? headerStyle,
+      HeaderDayType headerDayType, HeaderDayBuilder? builder) {
     List<String> headers;
     switch (headerDayType) {
       case HeaderDayType.fullName:
@@ -116,7 +111,7 @@ class _DaysView extends StatelessWidget {
                 : Center(
                     child: Text(
                       label.value,
-                      style: headerStyle.copyWith(
+                      style: headerStyle?.copyWith(
                         color: label.key == 6
                             ? calendarStyle.weekEndTextColor
                             : headerStyle.color,
@@ -136,11 +131,12 @@ class _DaysView extends StatelessWidget {
     final daysInMonth = displayedMonth.totalDays;
     final firstDayOffset = displayedMonth.weekday - 1;
     final labels = <Widget>[];
-    if (calendarStyle.renderDaysOfWeek)
+    if (calendarStyle.renderDaysOfWeek) {
       labels.addAll(
         _getDayHeaders(language, themeData.textTheme.caption, headerDayType,
             headerDayBuilder),
       );
+    }
 
     //this weekNumber is to determine the weekend, saturday.
     int weekNumber = 0;
@@ -157,7 +153,7 @@ class _DaysView extends StatelessWidget {
         final disabled = dayToBuild.isAfter(lastDate) ||
             dayToBuild.isBefore(firstDate) ||
             (selectableDayPredicate != null &&
-                !selectableDayPredicate(dayToBuild));
+                !selectableDayPredicate!(dayToBuild));
 
         final isSelectedDay = selectedDate.year == year &&
             selectedDate.month == month &&
@@ -191,8 +187,8 @@ class _DaysView extends StatelessWidget {
             onTap: () {
               onChanged(dayToBuild);
             },
-            child: dayWidget,
             dragStartBehavior: dragStartBehavior,
+            child: dayWidget,
           );
         }
         labels.add(dayWidget);
@@ -205,7 +201,7 @@ class _DaysView extends StatelessWidget {
       children: <Widget>[
         Flexible(
           child: GridView.custom(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: _kDayPickerGridDelegate,
             childrenDelegate:
                 SliverChildListDelegate(labels, addRepaintBoundaries: false),

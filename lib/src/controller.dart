@@ -1,15 +1,15 @@
 part of clean_nepali_calendar;
 
-typedef void _SelectedDayCallback(NepaliDateTime day, {bool runCallback});
+typedef _SelectedDayCallback = void Function(NepaliDateTime day, {bool runCallback});
 
 class NepaliCalendarController {
-  NepaliDateTime get selectedDay => _selectedDay;
-  NepaliDateTime _selectedDay;
-  _SelectedDayCallback _selectedDayCallback;
+  NepaliDateTime? get selectedDay => _selectedDay;
+  NepaliDateTime? _selectedDay;
+  _SelectedDayCallback? _selectedDayCallback;
 
   void _init({
-    @required _SelectedDayCallback selectedDayCallback,
-    @required NepaliDateTime initialDay,
+    required _SelectedDayCallback selectedDayCallback,
+    required NepaliDateTime initialDay,
   }) {
     _selectedDayCallback = selectedDayCallback;
     _selectedDay = initialDay;
@@ -24,7 +24,7 @@ class NepaliCalendarController {
     _selectedDay = value;
 
     if (isProgrammatic && _selectedDayCallback != null) {
-      _selectedDayCallback(value, runCallback: runCallback);
+      _selectedDayCallback?.call(value, runCallback: runCallback);
     }
   }
 }

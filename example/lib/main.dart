@@ -1,6 +1,5 @@
 import 'package:clean_nepali_calendar/clean_nepali_calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 void main() => runApp(MyApp());
 

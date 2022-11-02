@@ -1,6 +1,6 @@
 part of clean_nepali_calendar;
 
-typedef Widget DateCellBuilder(
+typedef DateCellBuilder = Widget Function(
   bool isToday,
   bool isSelected,
   bool isDisabled,
@@ -13,17 +13,17 @@ typedef Widget DateCellBuilder(
 
 class _DayWidget extends StatelessWidget {
   const _DayWidget({
-    Key key,
-    @required this.isSelected,
-    @required this.isDisabled,
-    @required this.isToday,
-    @required this.label,
-    @required this.text,
-    @required this.onTap,
-    @required this.calendarStyle,
-    @required this.day,
+    Key? key,
+    required this.isSelected,
+    required this.isDisabled,
+    required this.isToday,
+    required this.label,
+    required this.text,
+    required this.onTap,
+    required this.calendarStyle,
+    required this.day,
     this.builder,
-    this.isWeekend,
+    this.isWeekend = false,
   }) : super(key: key);
 
   final bool isSelected;
@@ -34,12 +34,12 @@ class _DayWidget extends StatelessWidget {
   final Function() onTap;
   final CalendarStyle calendarStyle;
   final NepaliDateTime day;
-  final DateCellBuilder builder;
+  final DateCellBuilder? builder;
   final bool isWeekend;
 
   @override
   Widget build(BuildContext context) {
-    Decoration _buildCellDecoration() {
+    Decoration buildCellDecoration() {
       if (isSelected && calendarStyle.highlightSelected) {
         return BoxDecoration(
           color: calendarStyle.selectedColor,
@@ -51,13 +51,13 @@ class _DayWidget extends StatelessWidget {
           color: calendarStyle.todayColor,
         );
       } else {
-        return BoxDecoration(
+        return const BoxDecoration(
           shape: BoxShape.circle,
         );
       }
     }
 
-    TextStyle _buildCellTextStyle() {
+    TextStyle buildCellTextStyle() {
       if (isDisabled) {
         return calendarStyle.unavailableStyle;
       } else if (isSelected && calendarStyle.highlightSelected) {
@@ -70,18 +70,18 @@ class _DayWidget extends StatelessWidget {
     }
 
     return (builder != null)
-        ? builder(isToday, isSelected, isDisabled, day, label, text,
+        ? builder!(isToday, isSelected, isDisabled, day, label, text,
             calendarStyle, isWeekend)
         : AnimatedContainer(
-            duration: Duration(milliseconds: 2000),
-            decoration: _buildCellDecoration(),
+            duration: const Duration(milliseconds: 2000),
+            decoration: buildCellDecoration(),
             child: Center(
               child: Semantics(
                 label: label,
                 selected: isSelected,
                 child: ExcludeSemantics(
                   child: Text(text,
-                      style: _buildCellTextStyle().copyWith(
+                      style: buildCellTextStyle().copyWith(
                           color: isWeekend
                               ? calendarStyle.weekEndTextColor
                               : null)),
