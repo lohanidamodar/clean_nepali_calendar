@@ -1,6 +1,6 @@
 part of clean_nepali_calendar;
 
-typedef Widget HeaderDayBuilder(String headerName, int dayNumber);
+typedef HeaderDayBuilder = Widget Function(String headerName, int dayNumber);
 
 const double _kDayPickerRowHeight = 40.0;
 
@@ -136,11 +136,12 @@ class _DaysView extends StatelessWidget {
     final daysInMonth = displayedMonth.totalDays;
     final firstDayOffset = displayedMonth.weekday - 1;
     final labels = <Widget>[];
-    if (calendarStyle.renderDaysOfWeek)
+    if (calendarStyle.renderDaysOfWeek) {
       labels.addAll(
         _getDayHeaders(language, themeData.textTheme.caption, headerDayType,
             headerDayBuilder),
       );
+    }
 
     //this weekNumber is to determine the weekend, saturday.
     int weekNumber = 0;
@@ -191,8 +192,8 @@ class _DaysView extends StatelessWidget {
             onTap: () {
               onChanged(dayToBuild);
             },
-            child: dayWidget,
             dragStartBehavior: dragStartBehavior,
+            child: dayWidget,
           );
         }
         labels.add(dayWidget);
@@ -205,7 +206,7 @@ class _DaysView extends StatelessWidget {
       children: <Widget>[
         Flexible(
           child: GridView.custom(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: _kDayPickerGridDelegate,
             childrenDelegate:
                 SliverChildListDelegate(labels, addRepaintBoundaries: false),

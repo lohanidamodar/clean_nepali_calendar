@@ -1,7 +1,7 @@
 part of clean_nepali_calendar;
 
-typedef String TextBuilder(NepaliDateTime date, Language language);
-typedef void HeaderGestureCallback(NepaliDateTime focusedDay);
+typedef TextBuilder = String Function(NepaliDateTime date, Language language);
+typedef HeaderGestureCallback = void Function(NepaliDateTime focusedDay);
 
 String formattedMonth(
   int month, [
@@ -53,10 +53,10 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderBuilder headerBuilder;
 
   @override
-  _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
+  CleanNepaliCalendarState createState() => CleanNepaliCalendarState();
 }
 
-class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
+class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   @override
   void initState() {
     super.initState();
@@ -124,8 +124,9 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       widget.controller.setSelectedDay(value, isProgrammatic: false);
       _selectedDate = value;
     });
-    if (runCallback && widget.onDaySelected != null)
+    if (runCallback && widget.onDaySelected != null) {
       widget.onDaySelected(value);
+    }
   }
 
   Widget _buildPicker() {
@@ -145,6 +146,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       headerDayBuilder: widget.headerDayBuilder,
       dateCellBuilder: widget.dateCellBuilder,
       headerBuilder: widget.headerBuilder,
+      dragStartBehavior: DragStartBehavior.start,
     );
   }
 

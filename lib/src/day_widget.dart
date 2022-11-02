@@ -1,6 +1,6 @@
 part of clean_nepali_calendar;
 
-typedef Widget DateCellBuilder(
+typedef DateCellBuilder = Widget Function(
   bool isToday,
   bool isSelected,
   bool isDisabled,
@@ -39,7 +39,7 @@ class _DayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Decoration _buildCellDecoration() {
+    Decoration buildCellDecoration() {
       if (isSelected && calendarStyle.highlightSelected) {
         return BoxDecoration(
           color: calendarStyle.selectedColor,
@@ -51,13 +51,13 @@ class _DayWidget extends StatelessWidget {
           color: calendarStyle.todayColor,
         );
       } else {
-        return BoxDecoration(
+        return const BoxDecoration(
           shape: BoxShape.circle,
         );
       }
     }
 
-    TextStyle _buildCellTextStyle() {
+    TextStyle buildCellTextStyle() {
       if (isDisabled) {
         return calendarStyle.unavailableStyle;
       } else if (isSelected && calendarStyle.highlightSelected) {
@@ -73,15 +73,15 @@ class _DayWidget extends StatelessWidget {
         ? builder(isToday, isSelected, isDisabled, day, label, text,
             calendarStyle, isWeekend)
         : AnimatedContainer(
-            duration: Duration(milliseconds: 2000),
-            decoration: _buildCellDecoration(),
+            duration: const Duration(milliseconds: 2000),
+            decoration: buildCellDecoration(),
             child: Center(
               child: Semantics(
                 label: label,
                 selected: isSelected,
                 child: ExcludeSemantics(
                   child: Text(text,
-                      style: _buildCellTextStyle().copyWith(
+                      style: buildCellTextStyle().copyWith(
                           color: isWeekend
                               ? calendarStyle.weekEndTextColor
                               : null)),

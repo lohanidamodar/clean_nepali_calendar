@@ -1,6 +1,6 @@
 part of clean_nepali_calendar;
 
-typedef Widget HeaderBuilder(
+typedef HeaderBuilder = Widget Function(
   BoxDecoration decoration,
   double height,
   Function nextMonthHandler,
@@ -15,7 +15,7 @@ class _CalendarHeader extends StatelessWidget {
     @required Animation<double> chevronOpacityAnimation,
     @required bool isDisplayingFirstMonth,
     @required NepaliDateTime previousMonthDate,
-    @required NepaliDateTime date,
+    this.date,
     @required bool isDisplayingLastMonth,
     @required NepaliDateTime nextMonthDate,
     @required HeaderStyle headerStyle,
@@ -28,7 +28,6 @@ class _CalendarHeader extends StatelessWidget {
   })  : _chevronOpacityAnimation = chevronOpacityAnimation,
         _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
-        date = date,
         _isDisplayingLastMonth = isDisplayingLastMonth,
         _nextMonthDate = nextMonthDate,
         _headerStyle = headerStyle,
@@ -90,7 +89,7 @@ class _CalendarHeader extends StatelessWidget {
                     onTap: _changeToToday,
                     child: Text(
                       _language == Language.nepali ? "आज" : 'Today',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -155,7 +154,7 @@ class _CalendarHeader extends StatelessWidget {
                         ? TextAlign.center
                         : TextAlign.start,
                   ),
-                  Icon(Icons.arrow_drop_down)
+                  const Icon(Icons.arrow_drop_down)
                 ],
               ),
               Text(
