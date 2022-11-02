@@ -10,21 +10,21 @@ typedef HeaderBuilder = Widget Function(
 
 class _CalendarHeader extends StatelessWidget {
   const _CalendarHeader({
-    Key key,
-    @required Language language,
-    @required Animation<double> chevronOpacityAnimation,
-    @required bool isDisplayingFirstMonth,
-    @required NepaliDateTime previousMonthDate,
-    this.date,
-    @required bool isDisplayingLastMonth,
-    @required NepaliDateTime nextMonthDate,
-    @required HeaderStyle headerStyle,
-    @required Function() handleNextMonth,
-    @required Function() handlePreviousMonth,
-    @required this.onHeaderTapped,
-    @required this.onHeaderLongPressed,
-    @required changeToToday,
-    HeaderBuilder headerBuilder,
+    Key? key,
+    required Language language,
+    required Animation<double> chevronOpacityAnimation,
+    required bool isDisplayingFirstMonth,
+    required NepaliDateTime previousMonthDate,
+    required this.date,
+    required bool isDisplayingLastMonth,
+    required NepaliDateTime nextMonthDate,
+    required HeaderStyle headerStyle,
+    required Function() handleNextMonth,
+    required Function() handlePreviousMonth,
+    this.onHeaderTapped,
+    this.onHeaderLongPressed,
+    required changeToToday,
+    HeaderBuilder? headerBuilder,
   })  : _chevronOpacityAnimation = chevronOpacityAnimation,
         _isDisplayingFirstMonth = isDisplayingFirstMonth,
         _previousMonthDate = previousMonthDate,
@@ -49,19 +49,19 @@ class _CalendarHeader extends StatelessWidget {
   final Function() _handlePreviousMonth;
   final Function() _changeToToday;
   final Language _language;
-  final HeaderGestureCallback onHeaderTapped;
-  final HeaderGestureCallback onHeaderLongPressed;
-  final HeaderBuilder _headerBuilder;
+  final HeaderGestureCallback? onHeaderTapped;
+  final HeaderGestureCallback? onHeaderLongPressed;
+  final HeaderBuilder? _headerBuilder;
 
   _onHeaderTapped() {
     if (onHeaderTapped != null) {
-      onHeaderTapped(date);
+      onHeaderTapped!(date);
     }
   }
 
   _onHeaderLongPressed() {
     if (onHeaderLongPressed != null) {
-      onHeaderLongPressed(date);
+      onHeaderLongPressed!(date);
     }
   }
 
@@ -71,7 +71,7 @@ class _CalendarHeader extends StatelessWidget {
       onTap: _onHeaderTapped,
       onLongPress: _onHeaderLongPressed,
       child: (_headerBuilder != null)
-          ? _headerBuilder(_headerStyle.decoration, _kDayPickerRowHeight,
+          ? _headerBuilder!(_headerStyle.decoration, _kDayPickerRowHeight,
               _handleNextMonth, _handlePreviousMonth, date)
           : Container(
               decoration: _headerStyle.decoration,
@@ -144,7 +144,7 @@ class _CalendarHeader extends StatelessWidget {
                 children: [
                   Text(
                     _headerStyle.titleTextBuilder != null
-                        ? _headerStyle.titleTextBuilder(
+                        ? _headerStyle.titleTextBuilder!(
                             date,
                             _language,
                           )
@@ -159,7 +159,7 @@ class _CalendarHeader extends StatelessWidget {
               ),
               Text(
                 _headerStyle.titleTextBuilder != null
-                    ? _headerStyle.titleTextBuilder(
+                    ? _headerStyle.titleTextBuilder!(
                         date,
                         _language,
                       )

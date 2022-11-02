@@ -5,7 +5,7 @@ typedef HeaderGestureCallback = void Function(NepaliDateTime focusedDay);
 
 String formattedMonth(
   int month, [
-  Language language,
+  Language? language,
 ]) =>
     NepaliDateFormat.MMMM(language).format(
       NepaliDateTime(1970, month),
@@ -18,7 +18,7 @@ const double _kMaxDayPickerHeight =
 
 class CleanNepaliCalendar extends StatefulWidget {
   const CleanNepaliCalendar({
-    Key key,
+    Key? key,
     this.initialDate,
     this.firstDate,
     this.lastDate,
@@ -29,28 +29,28 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.calendarStyle = const CalendarStyle(),
     this.onHeaderTapped,
     this.onHeaderLongPressed,
-    @required this.controller,
+    required this.controller,
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
     this.headerBuilder,
   }) : super(key: key);
 
-  final NepaliDateTime initialDate;
-  final NepaliDateTime firstDate;
-  final NepaliDateTime lastDate;
-  final Function(NepaliDateTime) onDaySelected;
-  final SelectableDayPredicate selectableDayPredicate;
+  final NepaliDateTime? initialDate;
+  final NepaliDateTime? firstDate;
+  final NepaliDateTime? lastDate;
+  final Function(NepaliDateTime)? onDaySelected;
+  final SelectableDayPredicate? selectableDayPredicate;
   final Language language;
   final CalendarStyle calendarStyle;
   final HeaderStyle headerStyle;
-  final HeaderGestureCallback onHeaderTapped;
-  final HeaderGestureCallback onHeaderLongPressed;
+  final HeaderGestureCallback? onHeaderTapped;
+  final HeaderGestureCallback? onHeaderLongPressed;
   final NepaliCalendarController controller;
   final HeaderDayType headerDayType;
-  final HeaderDayBuilder headerDayBuilder;
-  final DateCellBuilder dateCellBuilder;
-  final HeaderBuilder headerBuilder;
+  final HeaderDayBuilder? headerDayBuilder;
+  final DateCellBuilder? dateCellBuilder;
+  final HeaderBuilder? headerBuilder;
 
   @override
   CleanNepaliCalendarState createState() => CleanNepaliCalendarState();
@@ -69,8 +69,8 @@ class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   bool _announcedInitialDate = false;
 
-  MaterialLocalizations localizations;
-  TextDirection textDirection;
+  late MaterialLocalizations localizations;
+  late TextDirection textDirection;
 
   @override
   void didChangeDependencies() {
@@ -94,7 +94,7 @@ class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
         .setSelectedDay(widget.initialDate ?? NepaliDateTime.now());
   }
 
-  NepaliDateTime _selectedDate;
+  late NepaliDateTime _selectedDate;
   final GlobalKey _pickerKey = GlobalKey();
 
   void _vibrate() {
@@ -108,7 +108,7 @@ class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
       _selectedDate = value;
     });
     if (runCallback && widget.onDaySelected != null) {
-      widget.onDaySelected(value);
+      widget.onDaySelected!(value);
     }
   }
 

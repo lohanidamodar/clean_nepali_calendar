@@ -4,14 +4,14 @@ const Duration _kMonthScrollDuration = Duration(milliseconds: 200);
 
 class _MonthView extends StatefulWidget {
   _MonthView({
-    Key key,
-    @required this.selectedDate,
-    @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.language,
-    @required this.calendarStyle,
-    @required this.headerStyle,
+    Key? key,
+    required this.selectedDate,
+    required this.onChanged,
+    required this.firstDate,
+    required this.lastDate,
+    required this.language,
+    required this.calendarStyle,
+    required this.headerStyle,
     this.selectableDayPredicate,
     this.onHeaderLongPressed,
     this.onHeaderTapped,
@@ -20,9 +20,7 @@ class _MonthView extends StatefulWidget {
     this.headerDayBuilder,
     this.dateCellBuilder,
     this.headerBuilder,
-  })  : assert(selectedDate != null),
-        assert(onChanged != null),
-        assert(!firstDate.isAfter(lastDate)),
+  })  : assert(!firstDate.isAfter(lastDate)),
         assert(selectedDate.isAfter(firstDate)),
         super(key: key);
 
@@ -34,7 +32,7 @@ class _MonthView extends StatefulWidget {
 
   final NepaliDateTime lastDate;
 
-  final SelectableDayPredicate selectableDayPredicate;
+  final SelectableDayPredicate? selectableDayPredicate;
 
   final DragStartBehavior dragStartBehavior;
 
@@ -43,15 +41,15 @@ class _MonthView extends StatefulWidget {
   final CalendarStyle calendarStyle;
 
   final HeaderStyle headerStyle;
-  final HeaderGestureCallback onHeaderTapped;
-  final HeaderGestureCallback onHeaderLongPressed;
+  final HeaderGestureCallback? onHeaderTapped;
+  final HeaderGestureCallback? onHeaderLongPressed;
 
   final HeaderDayType headerDayType;
 
   // build custom header
-  final HeaderDayBuilder headerDayBuilder;
-  final DateCellBuilder dateCellBuilder;
-  final HeaderBuilder headerBuilder;
+  final HeaderDayBuilder? headerDayBuilder;
+  final DateCellBuilder? dateCellBuilder;
+  final HeaderBuilder? headerBuilder;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -94,7 +92,7 @@ class _MonthViewState extends State<_MonthView>
     }
   }
 
-  TextDirection textDirection;
+  TextDirection textDirection = TextDirection.ltr;
 
   @override
   void didChangeDependencies() {
@@ -102,12 +100,12 @@ class _MonthViewState extends State<_MonthView>
     textDirection = Directionality.of(context);
   }
 
-  NepaliDateTime _todayDate;
-  NepaliDateTime _currentDisplayedMonthDate;
-  Timer _timer;
-  PageController _dayPickerController;
-  AnimationController _chevronOpacityController;
-  Animation<double> _chevronOpacityAnimation;
+  late NepaliDateTime _todayDate;
+  late NepaliDateTime _currentDisplayedMonthDate;
+  Timer? _timer;
+  late PageController _dayPickerController;
+  late AnimationController _chevronOpacityController;
+  late Animation<double> _chevronOpacityAnimation;
 
   void _updateCurrentDate() {
     _todayDate = NepaliDateTime.now();
@@ -198,8 +196,8 @@ class _MonthViewState extends State<_MonthView>
         .isBefore(NepaliDateTime(widget.lastDate.year, widget.lastDate.month));
   }
 
-  NepaliDateTime _previousMonthDate;
-  NepaliDateTime _nextMonthDate;
+  late NepaliDateTime _previousMonthDate;
+  late NepaliDateTime _nextMonthDate;
 
   void _handleMonthPageChanged(int monthPage) {
     setState(() {
@@ -283,7 +281,7 @@ class _MonthViewState extends State<_MonthView>
   @override
   void dispose() {
     _timer?.cancel();
-    _dayPickerController?.dispose();
+    _dayPickerController.dispose();
     super.dispose();
   }
 }

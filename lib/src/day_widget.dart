@@ -13,17 +13,17 @@ typedef DateCellBuilder = Widget Function(
 
 class _DayWidget extends StatelessWidget {
   const _DayWidget({
-    Key key,
-    @required this.isSelected,
-    @required this.isDisabled,
-    @required this.isToday,
-    @required this.label,
-    @required this.text,
-    @required this.onTap,
-    @required this.calendarStyle,
-    @required this.day,
+    Key? key,
+    required this.isSelected,
+    required this.isDisabled,
+    required this.isToday,
+    required this.label,
+    required this.text,
+    required this.onTap,
+    required this.calendarStyle,
+    required this.day,
     this.builder,
-    this.isWeekend,
+    this.isWeekend = false,
   }) : super(key: key);
 
   final bool isSelected;
@@ -34,7 +34,7 @@ class _DayWidget extends StatelessWidget {
   final Function() onTap;
   final CalendarStyle calendarStyle;
   final NepaliDateTime day;
-  final DateCellBuilder builder;
+  final DateCellBuilder? builder;
   final bool isWeekend;
 
   @override
@@ -70,7 +70,7 @@ class _DayWidget extends StatelessWidget {
     }
 
     return (builder != null)
-        ? builder(isToday, isSelected, isDisabled, day, label, text,
+        ? builder!(isToday, isSelected, isDisabled, day, label, text,
             calendarStyle, isWeekend)
         : AnimatedContainer(
             duration: const Duration(milliseconds: 2000),
