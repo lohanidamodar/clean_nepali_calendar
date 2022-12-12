@@ -1,3 +1,6 @@
+# 2.0.1
+* Update version and dependencies
+
 ## 2.0.0
 * Updated to latest dependencies
 * Sound null safety
