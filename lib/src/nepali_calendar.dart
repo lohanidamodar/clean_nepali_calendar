@@ -33,6 +33,7 @@ class CleanNepaliCalendar extends StatefulWidget {
     this.headerDayType = HeaderDayType.initial,
     this.headerDayBuilder,
     this.dateCellBuilder,
+    this.enableVibration = true,
     this.headerBuilder,
   }) : super(key: key);
 
@@ -51,6 +52,7 @@ class CleanNepaliCalendar extends StatefulWidget {
   final HeaderDayBuilder? headerDayBuilder;
   final DateCellBuilder? dateCellBuilder;
   final HeaderBuilder? headerBuilder;
+  final bool enableVibration;
 
   @override
   CleanNepaliCalendarState createState() => CleanNepaliCalendarState();
@@ -102,7 +104,7 @@ class CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   void _handleDayChanged(NepaliDateTime value, {bool runCallback = true}) {
-    _vibrate();
+    if (widget.enableVibration) _vibrate();
     setState(() {
       widget.controller.setSelectedDay(value, isProgrammatic: false);
       _selectedDate = value;
