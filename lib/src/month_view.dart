@@ -55,11 +55,9 @@ class _MonthView extends StatefulWidget {
   _MonthViewState createState() => _MonthViewState();
 }
 
-class _MonthViewState extends State<_MonthView>
-    with SingleTickerProviderStateMixin {
+class _MonthViewState extends State<_MonthView> with SingleTickerProviderStateMixin {
   static final Animatable<double> _chevronOpacityTween =
-      Tween<double>(begin: 1.0, end: 0.0)
-          .chain(CurveTween(curve: Curves.easeInOut));
+      Tween<double>(begin: 1.0, end: 0.0).chain(CurveTween(curve: Curves.easeInOut));
 
   @override
   void initState() {
@@ -78,8 +76,8 @@ class _MonthViewState extends State<_MonthView>
 
     _chevronOpacityAnimation = widget.headerStyle.enableFadeTransition
         ? _chevronOpacityController.drive(_chevronOpacityTween)
-        : _chevronOpacityController.drive(Tween<double>(begin: 1.0, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeInOut)));
+        : _chevronOpacityController
+            .drive(Tween<double>(begin: 1.0, end: 1.0).chain(CurveTween(curve: Curves.easeInOut)));
   }
 
   @override
@@ -115,8 +113,7 @@ class _MonthViewState extends State<_MonthView>
       _todayDate.day + 1,
     );
     var timeUntilTomorrow = tomorrow.difference(_todayDate);
-    timeUntilTomorrow +=
-        const Duration(seconds: 1); // so we don't miss it by rounding
+    timeUntilTomorrow += const Duration(seconds: 1); // so we don't miss it by rounding
     _timer?.cancel();
     _timer = Timer(timeUntilTomorrow, () {
       setState(_updateCurrentDate);
@@ -124,9 +121,7 @@ class _MonthViewState extends State<_MonthView>
   }
 
   static int _monthDelta(NepaliDateTime startDate, NepaliDateTime endDate) {
-    return (endDate.year - startDate.year) * 12 +
-        endDate.month -
-        startDate.month;
+    return (endDate.year - startDate.year) * 12 + endDate.month - startDate.month;
   }
 
   NepaliDateTime _addMonthsToMonthDate(
@@ -169,31 +164,25 @@ class _MonthViewState extends State<_MonthView>
   void _handleNextMonth() {
     if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
-          "${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}",
-          textDirection);
-      _dayPickerController.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+          "${formattedMonth(_nextMonthDate.month, Language.english)} ${_nextMonthDate.year}", textDirection);
+      _dayPickerController.nextPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
   void _handlePreviousMonth() {
     if (!_isDisplayingFirstMonth) {
       SemanticsService.announce(
-          "${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}",
-          textDirection);
-      _dayPickerController.previousPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+          "${formattedMonth(_previousMonthDate.month, Language.english)} ${_previousMonthDate.year}", textDirection);
+      _dayPickerController.previousPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
   bool get _isDisplayingFirstMonth {
-    return !_currentDisplayedMonthDate
-        .isAfter(NepaliDateTime(widget.firstDate.year, widget.firstDate.month));
+    return !_currentDisplayedMonthDate.isAfter(NepaliDateTime(widget.firstDate.year, widget.firstDate.month));
   }
 
   bool get _isDisplayingLastMonth {
-    return !_currentDisplayedMonthDate
-        .isBefore(NepaliDateTime(widget.lastDate.year, widget.lastDate.month));
+    return !_currentDisplayedMonthDate.isBefore(NepaliDateTime(widget.lastDate.year, widget.lastDate.month));
   }
 
   late NepaliDateTime _previousMonthDate;
@@ -201,10 +190,8 @@ class _MonthViewState extends State<_MonthView>
 
   void _handleMonthPageChanged(int monthPage) {
     setState(() {
-      _previousMonthDate =
-          _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
-      _currentDisplayedMonthDate =
-          _addMonthsToMonthDate(widget.firstDate, monthPage);
+      _previousMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage - 1);
+      _currentDisplayedMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage);
       _nextMonthDate = _addMonthsToMonthDate(widget.firstDate, monthPage + 1);
     });
   }
@@ -253,8 +240,7 @@ class _MonthViewState extends State<_MonthView>
                         key: ValueKey<NepaliDateTime>(widget.selectedDate),
                         controller: _dayPickerController,
                         scrollDirection: Axis.horizontal,
-                        itemCount:
-                            _monthDelta(widget.firstDate, widget.lastDate) + 1,
+                        itemCount: _monthDelta(widget.firstDate, widget.lastDate) + 1,
                         itemBuilder: _buildItems,
                         onPageChanged: _handleMonthPageChanged,
                       ),
