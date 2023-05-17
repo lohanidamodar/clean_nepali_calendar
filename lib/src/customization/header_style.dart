@@ -21,6 +21,9 @@ class HeaderStyle {
   /// Style for title Text (month-year) displayed in header.
   final TextStyle titleTextStyle;
 
+  /// Style for subtitle Text (month/month - year) displayed in header.
+  final TextStyle subTitleTextStyle;
+
   /// Inside padding for left chevron.
   final EdgeInsets leftChevronPadding;
 
@@ -38,6 +41,7 @@ class HeaderStyle {
   /// Header decoration, used to draw border or shadow or change color of the header
   /// Defaults to empty BoxDecoration.
   final BoxDecoration decoration;
+
   /// enable or disable fadeTransition animation on header when changing the month
   final bool enableFadeTransition;
 
@@ -45,11 +49,11 @@ class HeaderStyle {
     this.centerHeaderTitle = true,
     this.titleTextBuilder,
     this.titleTextStyle = const TextStyle(fontSize: 17.0),
+    this.subTitleTextStyle = const TextStyle(fontSize: 14.0),
     this.leftChevronPadding = const EdgeInsets.all(8.0),
     this.rightChevronPadding = const EdgeInsets.all(8.0),
     this.leftChevronIcon = const Icon(Icons.chevron_left, color: Colors.black),
-    this.rightChevronIcon =
-        const Icon(Icons.chevron_right, color: Colors.black),
+    this.rightChevronIcon = const Icon(Icons.chevron_right, color: Colors.black),
     this.decoration = const BoxDecoration(),
     this.enableFadeTransition = true,
   });
